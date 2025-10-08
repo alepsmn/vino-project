@@ -1,0 +1,15 @@
+{% extends "pos/base_pos.html" %}
+{% block title %}Test API POS{% endblock %}
+{% block content %}
+<h2>Token recibido desde la API</h2>
+<p>{{ token }}</p>
+
+<h3>Listado de vinos (datos desde /api/v1/vinos/)</h3>
+<ul>
+{% for vino in vinos.results %}
+    <li>{{ vino.nombre }} — {{ vino.precio_venta }} €</li>
+{% empty %}
+    <li>No se recibieron datos</li>
+{% endfor %}
+</ul>
+{% endblock %}

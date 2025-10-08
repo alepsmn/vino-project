@@ -1,0 +1,28 @@
+{% extends "pos/base_pos.html" %}
+{% block title %}Resumen de Ventas{% endblock %}
+{% block content %}
+<h2>Resumen de Ventas</h2>
+
+<form method="get" action="{% url 'pos:resumen_pos' %}">
+    <label>Desde:</label>
+    <input type="date" name="inicio" value="{{ inicio }}">
+    <label>Hasta:</label>
+    <input type="date" name="fin" value="{{ fin }}">
+    <button type="submit">Filtrar</button>
+</form>
+
+<p>Total periodo: {{ total_periodo }}</p>
+
+<table border="1">
+    <tr><th>Vino</th><th>Cantidad</th><th>Total vendido (€)</th></tr>
+    {% for r in resumen %}
+    <tr>
+        <td>{{ r.vino__nombre }}</td>
+        <td>{{ r.cantidad_vendida }}</td>
+        <td>{{ r.total_vendido }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3">Sin registros en este periodo.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

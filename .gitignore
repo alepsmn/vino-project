@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+local_settings.py
+
+# Media / Static generated
+media/
+staticfiles/
+static_root/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Pytest / coverage / cache
+.coverage
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+
+# Migration backups (optional)
+**/migrations/
+!**/migrations/__init__.py
+
+# OS junk
+Thumbs.db

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if request.user.is_authenticated and request.user.empleado %}
+            POS — {{ request.user.empleado.tienda.nombre }}
+        {% else %}
+            POS Vinoteca
+        {% endif %}
+    </title>
+    <link rel="stylesheet" href="/static/css/pos.css">
+</head>
+<body>
+    {% include "pos/includes/navbar.html" %}
+    <header>
+        {% if request.user.is_authenticated and request.user.empleado %}
+            <h1>{{ request.user.empleado.tienda.nombre }}</h1>
+            <h3>Tienda asignada</h3>
+        {% else %}
+            <h1>POS Vinoteca</h1>
+        {% endif %}
+    </header>
+
+    <main class="contenido">
+        {% include "pos/includes/mensajes.html" %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

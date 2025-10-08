@@ -1,0 +1,8 @@
+{% if request.user.is_authenticated and request.user.empleado %}
+<nav>
+    <a href="{% url 'pos:panel_pos' %}">Panel</a> |
+    <a href="{% url 'pos:resumen_pos' %}">Resumen</a> |
+    <a href="{% url 'pos:logout_pos' %}">Salir</a>
+</nav>
+<hr>
+{% endif %}
