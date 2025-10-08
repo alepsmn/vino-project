@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages  # al inicio del archivo
 from django.contrib.auth.decorators import login_required
-from apps.core.models import Tienda
+from apps.core.models import Almacen
 from .models import Venta, DetalleVenta
 from .cart import Cart
 
@@ -33,31 +33,23 @@ def eliminar_carrito(request, vino_id):
 @login_required
 def checkout(request):
     cart = Cart(request)
-
     if not any(cart):
-        return render(request, 'ventas/checkout.html', {
-            'cart': cart,
-            'error': 'El carrito está vacío. Añade productos antes de comprar.'
-        })
+        return render(request, 'ventas/checkout.html', {'cart': cart, 'error': 'El carrito está vacío.'})
 
     if request.method == 'POST':
-        tienda_online = Tienda.objects.get_or_create(nombre='Online', codigo='ONLINE')[0]
+        almacen_central = Almacen.objects.get(nombre='Central')
 
-        # Validar stock antes de confirmar venta
+        # Verificar stock
         for item in cart:
-            stock = item['vino'].stock_set.filter(tienda=tienda_online).first()
+            stock = item['vino'].stock_set.filter(almacen=almacen_central).first()
             if not stock or stock.cantidad < item['cantidad']:
                 return render(request, 'ventas/checkout.html', {
                     'cart': cart,
                     'error': f"Stock insuficiente para {item['vino'].nombre}."
                 })
 
-        venta = Venta.objects.create(
-            cliente=request.user,
-            total=cart.total(),
-            pagado=True,
-            tienda=tienda_online
-        )
+        # Crear venta
+        venta = Venta.objects.create(cliente=request.user, total=cart.total(), pagado=True)
 
         for item in cart:
             DetalleVenta.objects.create(
@@ -67,10 +59,10 @@ def checkout(request):
                 precio_unitario=item['precio'],
                 subtotal=item['subtotal']
             )
-            stock = item['vino'].stock_set.filter(tienda=tienda_online).first()
-            if stock:
-                stock.cantidad = max(0, stock.cantidad - item['cantidad'])
-                stock.save()
+
+            stock = item['vino'].stock_set.filter(almacen=almacen_central).first()
+            stock.cantidad = max(0, stock.cantidad - item['cantidad'])
+            stock.save()
 
         cart.clear()
         return render(request, 'ventas/confirmacion.html', {'venta': venta})

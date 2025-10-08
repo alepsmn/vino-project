@@ -17,6 +17,6 @@ class VinoAdmin(admin.ModelAdmin):
 
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('vino', 'tienda', 'cantidad', 'actualizado')
-    list_filter = ('tienda',)
-    search_fields = ('vino__nombre', 'tienda')
+    list_display = ('vino', 'almacen', 'cantidad', 'actualizado')
+    list_filter = ('almacen',)
+    search_fields = ('vino__nombre', 'almacen__nombre')

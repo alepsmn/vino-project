@@ -1,5 +1,5 @@
 from django.db import models
-from apps.core.models import Tienda
+from apps.core.models import Almacen
 
 # Create your models here.
 
@@ -47,12 +47,22 @@ class Vino(models.Model):
     
 class Stock(models.Model):
     vino = models.ForeignKey(Vino, on_delete=models.CASCADE)
-    tienda = models.ForeignKey(Tienda, on_delete=models.CASCADE)
+    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE, null=True, blank=True,)  # ← permite nulos durante la migración inicial
     cantidad = models.PositiveIntegerField(default=0)
     actualizado = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('vino', 'tienda')
+        unique_together = ('vino', 'almacen')
 
     def __str__(self):
         return f"{self.vino.nombre} ({self.tienda.nombre}) — {self.cantidad}"
+    
+class TransferenciaStock(models.Model):
+    origen = models.ForeignKey(Almacen, related_name='transferencias_salida', on_delete=models.CASCADE)
+    destino = models.ForeignKey(Almacen, related_name='transferencias_entrada', on_delete=models.CASCADE)
+    vino = models.ForeignKey(Vino, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.vino.nombre} — {self.cantidad} de {self.origen} a {self.destino}"

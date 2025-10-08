@@ -16,6 +16,7 @@ class VinoSerializer(serializers.ModelSerializer):
 
 class StockSerializer(serializers.ModelSerializer):
     vino = VinoSerializer(read_only=True)
+    almacen = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Stock

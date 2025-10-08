@@ -12,21 +12,24 @@ class VentaViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     def perform_create(self, serializer):
         empleado = getattr(self.request.user, 'empleado', None)
-        if empleado:
-            venta = serializer.save(empleado=empleado, tienda=empleado.tienda)
-        else:
-            venta = serializer.save()
+        venta = serializer.save(
+            empleado=empleado if empleado else None,
+            tienda=getattr(empleado, "tienda", None),
+        )
 
-        # Actualizar stock por cada detalle de venta
+        # Almacén por defecto: Central
+        from apps.core.models import Almacen
+        almacen, _ = Almacen.objects.get_or_create(nombre="Central", defaults={"ubicacion": "Madrid"})
+
+        # Actualizar stock por cada detalle
         for detalle in venta.detalles.all():
             try:
-                stock = Stock.objects.get(vino=detalle.vino, tienda=venta.tienda)
+                stock = Stock.objects.get(vino=detalle.vino, almacen=almacen)
                 stock.cantidad = max(0, stock.cantidad - detalle.cantidad)
                 stock.save(update_fields=["cantidad"])
             except Stock.DoesNotExist:
-                # Si no existe el registro de stock, se crea con cantidad negativa (pendiente)
                 Stock.objects.create(
                     vino=detalle.vino,
-                    tienda=venta.tienda,
+                    almacen=almacen,
                     cantidad=max(0, -detalle.cantidad)
                 )

@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.db.models import Sum, F, DecimalField, ExpressionWrapper
 from django.utils.timezone import now
 from apps.ventas.models import DetalleVenta
+from functools import wraps
 from .utils.carrito_pos import CarritoPOS
 import requests
 
@@ -14,11 +15,23 @@ def empleado_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         user = request.user
+
         if not user.is_authenticated:
             return redirect('/pos/login/')
-        if not hasattr(user, 'empleado'):
-            return redirect('/pos/login/')
-        return view_func(request, *args, **kwargs)
+
+        # Superusuario: acceso total
+        if user.is_superuser:
+            return view_func(request, *args, **kwargs)
+
+        # Empleado: acceso normal
+        if hasattr(user, 'empleado'):
+            return view_func(request, *args, **kwargs)
+
+        # Sin permisos: cerrar sesión y redirigir
+        messages.error(request, "No tienes permisos para acceder al POS.")
+        logout(request)
+        return redirect('/usuarios/login/')
+
     return wrapper
 
 def login_pos(request):
