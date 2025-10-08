@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from apps.ventas.models import Venta, DetalleVenta
 
-
 class DetalleVentaSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetalleVenta
@@ -13,7 +12,7 @@ class VentaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Venta
-        fields = ['id', 'tienda', 'empleado', 'total', 'fecha', 'pagado', 'detalles']
+        fields = ['id', 'tienda', 'empleado', 'total', 'fecha', 'pagado', 'metodo_pago', 'descuento', 'detalles']
 
     def create(self, validated_data):
         detalles_data = validated_data.pop('detalles', [])

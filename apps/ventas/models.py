@@ -6,6 +6,13 @@ from apps.core.models import Tienda, Empleado
 # Create your models here.
 
 class Venta(models.Model):
+    METODOS_PAGO = [
+        ("efectivo", "Efectivo"),
+        ("tarjeta", "Tarjeta"),
+        ("transferencia", "Transferencia"),
+        ("otro", "Otro"),
+    ]
+
     cliente = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
     cliente_nombre = models.CharField(max_length=100, blank=True, null=True)
@@ -13,6 +20,10 @@ class Venta(models.Model):
     pagado = models.BooleanField(default=False)
     tienda = models.ForeignKey(Tienda, on_delete=models.SET_NULL, null=True, blank=True)
     empleado = models.ForeignKey(Empleado, on_delete=models.SET_NULL, null=True, blank=True)
+    descuento = models.DecimalField(max_digits=5, decimal_places=2, default=0,
+            help_text="Descuento global en porcentaje sobre el total"
+    )
+    metodo_pago = models.CharField(max_length=20, choices=METODOS_PAGO, default="tarjeta")
 
     class Meta:
         ordering = ["-fecha"]

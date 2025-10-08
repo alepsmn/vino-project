@@ -16,5 +16,5 @@ class ProductorViewSet(viewsets.ModelViewSet):
 
 
 class StockViewSet(viewsets.ModelViewSet):
-    queryset = Stock.objects.select_related('vino').all()
+    queryset = Stock.objects.select_related('vino').all().order_by('vino')
     serializer_class = StockSerializer

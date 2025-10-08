@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages  # al inicio del archivo
 from django.contrib.auth.decorators import login_required
+from apps.core.models import Tienda
 from .models import Venta, DetalleVenta
 from .cart import Cart
 
@@ -33,7 +34,6 @@ def eliminar_carrito(request, vino_id):
 def checkout(request):
     cart = Cart(request)
 
-    # Evitar checkout con carrito vacío
     if not any(cart):
         return render(request, 'ventas/checkout.html', {
             'cart': cart,
@@ -41,23 +41,25 @@ def checkout(request):
         })
 
     if request.method == 'POST':
+        tienda_online = Tienda.objects.get_or_create(nombre='Online', codigo='ONLINE')[0]
+
         # Validar stock antes de confirmar venta
         for item in cart:
-            stock = item['vino'].stock_set.filter(tienda='Online').first()
+            stock = item['vino'].stock_set.filter(tienda=tienda_online).first()
             if not stock or stock.cantidad < item['cantidad']:
                 return render(request, 'ventas/checkout.html', {
                     'cart': cart,
                     'error': f"Stock insuficiente para {item['vino'].nombre}."
                 })
 
-        # Crear venta
-        venta = Venta.objects.create(total=cart.total(), pagado=True)
+        venta = Venta.objects.create(
+            cliente=request.user,
+            total=cart.total(),
+            pagado=True,
+            tienda=tienda_online
+        )
+
         for item in cart:
-            venta = Venta.objects.create(
-                cliente=request.user if request.user.is_authenticated else None,
-                total=cart.total(),
-                pagado=True
-            )
             DetalleVenta.objects.create(
                 venta=venta,
                 vino=item['vino'],
@@ -65,8 +67,7 @@ def checkout(request):
                 precio_unitario=item['precio'],
                 subtotal=item['subtotal']
             )
-            # Actualizar stock (restar cantidad vendida)
-            stock = item['vino'].stock_set.filter(tienda='Online').first()
+            stock = item['vino'].stock_set.filter(tienda=tienda_online).first()
             if stock:
                 stock.cantidad = max(0, stock.cantidad - item['cantidad'])
                 stock.save()

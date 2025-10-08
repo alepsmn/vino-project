@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso POS</title>
+    <link rel="stylesheet" href="{% static 'pos/css/pos.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="login-body">
+
+<div class="login-container">
+    <div class="login-box">
+        <h1>Terminal POS</h1>
+
+        {% if error %}
+            <p class="error-msg">{{ error }}</p>
+        {% endif %}
+        {% for message in messages %}
+            <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" required autofocus>
+
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

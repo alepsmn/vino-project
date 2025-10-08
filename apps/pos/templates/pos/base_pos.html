@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS — {% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'pos/css/pos.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="tienda">{{ request.user.empleado.tienda.nombre|default:"Tienda" }}</h2>
+        </div>
+
+        <nav class="menu">
+            <ul>
+                <li><a href="{% url 'pos:panel_pos' %}" class="menu-link">🛒 Ventas</a></li>
+                <li><a href="{% url 'pos:resumen_pos' %}" class="menu-link">📊 Resumen</a></li>
+                <li><a href="{% url 'pos:inventario_pos' %}" class="menu-link">📦 Inventario</a></li>
+                <li><a href="#" class="menu-link">👤 Perfil</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="usuario">{{ request.user.username }}</span>
+            <a href="{% url 'pos:logout_pos' %}" class="logout">Salir</a>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+        <header class="topbar">
+            <h1>{% block header %}{% endblock %}</h1>
+        </header>
+
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+    </main>
+
+</div>
+</body>
+</html>

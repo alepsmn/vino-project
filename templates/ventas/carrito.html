@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block content %}
+<section class="carrito">
+    <h1 class="titulo-seccion">Tu Carrito</h1>
+
+    {% if cart.cart %}
+        <table class="tabla-carrito">
+            <thead>
+                <tr>
+                    <th>Vino</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                    <tr>
+                        <td>{{ item.vino.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>{{ item.precio }} €</td>
+                        <td>{{ item.subtotal }} €</td>
+                        <td>
+                            <a href="{% url 'ventas:eliminar_carrito' item.vino.id %}" class="btn-eliminar">✕</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="resumen-carrito">
+            <p>Total: <span>{{ cart.total }} €</span></p>
+            <div class="acciones-carrito">
+                <a href="{% url 'inventario:lista_vinos' %}" class="btn-secundario">Seguir comprando</a>
+                <a href="{% url 'ventas:checkout' %}" class="btn-principal">Finalizar compra</a>
+            </div>
+        </div>
+
+    {% else %}
+        <p class="sin-resultados">Tu carrito está vacío.</p>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="{% url 'inventario:lista_vinos' %}" class="btn-principal">Volver al catálogo</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

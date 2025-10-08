@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from functools import wraps
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Sum, F, DecimalField, ExpressionWrapper
 from django.utils.timezone import now
-from apps.inventario.models import Vino
 from apps.ventas.models import DetalleVenta
+from .utils.carrito_pos import CarritoPOS
 import requests
 
 from .api_client import POSAPIClient
@@ -60,13 +60,48 @@ def logout_pos(request):
 def panel_pos(request):
     token = request.session.get("api_token")
     api = POSAPIClient(token=token)
+    respuesta = api.session.get(f"{api.base_url}/stock/")
+    data = respuesta.json()
+    stock_items = data.get("results", data)
+    vinos = []
+    for item in stock_items:
+        vino = item.get("vino")
+        if vino:
+            vino["stock_cantidad"] = item.get("cantidad", 0)
+            vinos.append(vino)
 
-    respuesta = api.get_vinos()
-    # Si la API devuelve un dict con 'results', úsalo; si devuelve lista, úsala tal cual
-    vinos = respuesta.get("results", respuesta) if isinstance(respuesta, dict) else respuesta
-
-    contexto = {"vinos": vinos}
+    carrito = CarritoPOS(request)
+    contexto = {
+        "vinos": vinos,
+        "carrito": carrito.items(),
+        "total": carrito.total()
+    }
     return render(request, "pos/panel.html", contexto)
+
+@empleado_required
+def inventario_pos(request):
+    token = request.session.get("api_token")
+    api = POSAPIClient(token=token)
+
+    # Si hay búsqueda
+    query = request.GET.get("q", "").strip()
+    url = f"{api.base_url}/stock/"
+    if query:
+        url += f"?search={query}"
+
+    respuesta = api.session.get(url)
+    data = respuesta.json()
+    stock_items = data.get("results", data)
+
+    vinos = []
+    for item in stock_items:
+        vino = item.get("vino")
+        if vino:
+            vino["stock_cantidad"] = item.get("cantidad", 0)
+            vinos.append(vino)
+
+    return render(request, "pos/inventario.html", {"vinos": vinos, "query": query})
+
 
 @empleado_required
 def registrar_venta_pos(request, vino_id):
@@ -143,16 +178,23 @@ def resumen_pos(request):
 def buscar_codigo(request):
     if request.method == "POST":
         codigo = request.POST.get("codigo", "").strip()
-        vino = (
-            Vino.objects.filter(codigo_barras=codigo).first()
-            or Vino.objects.filter(nombre__icontains=codigo).first()
-        )
+        token = request.session.get("api_token")
+        api = POSAPIClient(token=token)
 
-        if not vino:
-            messages.error(request, f"No se encontró ningún vino con '{codigo}'.")
-            return redirect("pos:panel_pos")
+        # búsqueda directa en API
+        response = api.session.get(f"{api.base_url}/vinos/?search={codigo}")
+        data = response.json()
+        vinos = data.get("results", data)
 
-        messages.success(request, f"{vino.nombre} encontrado. Listo para venta.")
-        return redirect("pos:panel_pos")
+        # cargar carrito existente para mostrarlo también
+        carrito = CarritoPOS(request)
+
+        contexto = {
+            "vinos": vinos,
+            "carrito": carrito.items(),
+            "total": carrito.total()
+        }
+        return render(request, "pos/panel.html", contexto)
 
     return redirect("pos:panel_pos")
+
