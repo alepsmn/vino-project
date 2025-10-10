@@ -1,20 +1,29 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import RegistroForm
+from .models import PerfilCliente
+from .forms import PerfilClienteForm
 from apps.ventas.models import Venta
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your views here.
 
 def registro(request):
     if request.method == 'POST':
-        form = RegistroForm(request.POST)
-        if form.is_valid():
-            form.save()
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "El usuario ya existe.")
+        else:
+            user = User.objects.create_user(username=username, email=email, password=password)
+            PerfilCliente.objects.create(user=user)
+            messages.success(request, "Cuenta creada correctamente. Ahora puedes iniciar sesión.")
             return redirect('usuarios:login')
-    else:
-        form = RegistroForm()
-    return render(request, 'usuarios/registro.html', {'form': form})
+
+    return render(request, 'usuarios/registro.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -23,9 +32,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('/')
+            return redirect(request.GET.get('next', '/'))
         else:
-            return render(request, 'usuarios/login.html', {'error': 'Credenciales incorrectas'})
+            messages.error(request, "Credenciales incorrectas.")
     return render(request, 'usuarios/login.html')
 
 def logout_view(request):
@@ -34,5 +43,19 @@ def logout_view(request):
 
 @login_required
 def perfil(request):
-    ventas = Venta.objects.filter(cliente=request.user).order_by('-fecha')
-    return render(request, 'usuarios/perfil.html', {'ventas': ventas})
+    perfil = getattr(request.user, "perfilcliente", None)
+    if perfil is None:
+        from apps.usuarios.models import PerfilCliente
+        perfil = PerfilCliente.objects.create(user=request.user)
+
+    if request.method == "POST":
+        form = PerfilClienteForm(request.POST, instance=perfil)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Perfil actualizado correctamente.")
+            return redirect("usuarios:perfil")
+    else:
+        form = PerfilClienteForm(instance=perfil)
+
+    ventas = Venta.objects.filter(cliente=request.user).order_by("-fecha")
+    return render(request, "usuarios/perfil.html", {"form": form, "ventas": ventas})

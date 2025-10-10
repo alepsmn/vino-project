@@ -32,7 +32,6 @@
 
     <div class="checkout-resumen">
         <p class="total">Total: <span>{{ cart.total }} €</span></p>
-
         <form method="post">
             {% csrf_token %}
             <button type="submit" class="btn-principal">Confirmar y Pagar</button>

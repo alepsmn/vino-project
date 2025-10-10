@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Registro{% endblock %}
+{% block content %}
+<section class="auth">
+  <div class="auth-container">
+    <h1>Crea tu cuenta</h1>
+    <form method="post">
+      {% csrf_token %}
+      <label>Usuario</label>
+      <input type="text" name="username" required>
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <label>Contraseña</label>
+      <input type="password" name="password" required>
+      <button type="submit" class="btn-principal">Registrarse</button>
+    </form>
+
+    <p class="link-secundario">
+      ¿Ya tienes cuenta?
+      <a href="{% url 'usuarios:login' %}">Inicia sesión</a>
+    </p>
+
+    {% if messages %}
+      <ul class="mensajes">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
