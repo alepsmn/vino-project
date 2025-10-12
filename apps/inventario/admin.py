@@ -19,4 +19,5 @@ class VinoAdmin(admin.ModelAdmin):
 class StockAdmin(admin.ModelAdmin):
     list_display = ('vino', 'almacen', 'cantidad', 'actualizado')
     list_filter = ('almacen',)
-    search_fields = ('vino__nombre', 'almacen__nombre')
+    search_fields = ('vino__nombre',)
+    readonly_fields = ('actualizado',)

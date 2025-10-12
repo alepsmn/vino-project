@@ -1,0 +1,32 @@
+:root {
+    --negro: #111;
+    --granate: #7c0a02;
+    --granate-suave: #a01307;
+    --blanco: #f4f4f4;
+    --gris: #ccc;
+}
+
+body {
+    margin: 0;
+    background: var(--negro);
+    color: var(--blanco);
+    font-family: "Inter", sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Playfair Display", serif;
+    color: var(--blanco);
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: var(--blanco);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--granate-suave);
+}

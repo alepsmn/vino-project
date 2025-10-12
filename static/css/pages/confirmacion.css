@@ -1,0 +1,31 @@
+.confirmacion-container {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.mensaje-confirmacion {
+    background: #181818;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 40px 0;
+}
+
+.mensaje-confirmacion p {
+    margin: 8px 0;
+    color: rgba(255,255,255,0.85);
+}
+
+.pedido-id {
+    color: var(--granate);
+    font-size: 1.1rem;
+}
+
+.acciones-confirmacion {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}

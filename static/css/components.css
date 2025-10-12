@@ -1,0 +1,84 @@
+/* Mensajes */
+.messages { margin-bottom: 20px; }
+
+.msg {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    color: #111;
+    font-weight: 500;
+}
+
+.msg.success { background: #b6e3b5; }
+.msg.error { background: #f7b2ad; }
+.msg.warning { background: #f7e7ad; }
+
+/* Botones */
+.btn-principal,
+.btn-secundario {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.btn-principal {
+    background: var(--granate);
+    color: var(--blanco);
+}
+
+.btn-principal:hover { background: var(--granate-suave); }
+
+.btn-secundario {
+    background: transparent;
+    color: var(--blanco);
+    border: 1px solid var(--blanco);
+}
+
+.btn-secundario:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-add {
+    width: 100%;
+    padding: 8px;
+    background: var(--granate);
+    border: none;
+    color: var(--blanco);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-add:hover { background: var(--granate-suave); }
+
+.btn-eliminar {
+    color: var(--granate);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.btn-eliminar:hover { color: var(--granate-suave); }
+
+/* Tablas */
+.tabla-carrito {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.tabla-carrito th, .tabla-carrito td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.tabla-carrito th {
+    color: var(--granate);
+    font-weight: 600;
+    border-bottom: 2px solid var(--granate);
+}
+
+.tabla-carrito td { color: var(--blanco); }

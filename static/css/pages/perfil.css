@@ -1,0 +1,15 @@
+.perfil {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.perfil h2 {
+    margin-top: 40px;
+}
