@@ -1,0 +1,13 @@
+<li class="categoria">
+  <a href="{% if item.obj.enlace_personalizado %}{{ item.obj.enlace_personalizado }}{% else %}#{% endif %}">
+    {{ item.obj.nombre }}
+  </a>
+
+  {% if item.sub %}
+    <ul class="subnivel">
+      {% for sub in item.sub %}
+        {% include "includes/menu_item.html" with item=sub %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>

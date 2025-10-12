@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mi Bodega{% endblock %}</title>
 
-    <!-- Tipografía -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block extra_css %}{% endblock %}
@@ -14,6 +13,7 @@
 <body>
 
     {% include 'includes/navbar.html' %}
+    {% include 'includes/search_subnav.html' %}  <!-- nuevo módulo -->
 
     <main class="main-container">
         {% include 'includes/messages.html' %}
@@ -24,4 +24,5 @@
 
     {% block extra_js %}{% endblock %}
 </body>
+<script type="module" src="{% static 'js/main.js' %}" defer></script>
 </html>

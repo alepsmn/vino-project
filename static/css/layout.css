@@ -1,51 +1,291 @@
-/* Navbar */
+/* ==== NAVBAR LIMPIO ==== */
+/* HEADER PRINCIPAL */
 .navbar {
-    background: var(--negro);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 15px 40px;
+  position: relative;
+  background: #0b0b0b;   /* tono único */
+  border: none;
+  padding: 15px 40px;
+  box-shadow: none;
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
-.logo {
+/* Lado derecho: buscador + perfil */
+.nav-derecha {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Logo centrado */
+.logo-centro {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: "Playfair Display", serif;
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--blanco);
     letter-spacing: 1px;
 }
+.logo-centro span { color: var(--granate); }
 
-.logo span {
-    color: var(--granate);
+/* Hamburguesa */
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+}
+.menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--blanco);
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-.nav-links a {
-    margin-left: 25px;
+/* Icono perfil */
+.icono-perfil svg {
+    width: 26px;
+    height: 26px;
+    color: var(--blanco);
+    transition: color 0.3s ease;
+}
+.icono-perfil:hover svg { color: var(--granate); }
+
+/* ==== MENÚ LATERAL ==== */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  background: #181818;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.6);
+  overflow-y: visible; /* antes: auto */
+  padding: 40px 20px;
+  transform: translateX(-100%);
+  transition: transform 0.35s ease;
+  z-index: 2000; /* aumenta prioridad */
+}
+
+.menu-lateral.activo {
+    transform: translateX(0);
+    box-shadow: 3px 0 10px rgba(0,0,0,0.6);
+}
+.menu-arbol,
+.menu-arbol ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+.menu-arbol > li { margin-bottom: 15px; }
+.menu-arbol a {
+    color: var(--blanco);
     font-weight: 400;
-    font-size: 0.95rem;
+    text-decoration: none;
+    display: block;
+    padding: 6px 0;
+    transition: color 0.2s ease;
+}
+.menu-arbol a:hover { color: var(--granate); }
+.menu-arbol ul {
+    padding-left: 15px;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    margin-top: 5px;
 }
 
-.logout {
-    color: var(--granate);
-    font-weight: 500;
+/* ==== OVERLAY ==== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.7);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    z-index: 900;
+}
+.overlay.visible {
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Main container */
-.main-container {
-    padding: 50px 60px;
-    min-height: calc(100vh - 140px);
+/* Botón de cierre menú lateral */
+.cerrar-menu {
+    background: none;
+    border: none;
+    color: var(--blanco);
+    font-size: 2rem;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.cerrar-menu:hover { color: var(--granate); }
+
+/* ==== BUSCADOR INLINE ==== */
+.nav-derecha {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
 }
 
-/* Footer */
-.footer {
-    background: #0a0a0a;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    text-align: center;
-    padding: 25px 0;
+.btn-search {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--blanco);
+    transition: color 0.2s ease;
+}
+
+.btn-search:hover { color: var(--granate); }
+.btn-search svg { width: 22px; height: 22px; }
+
+/* Barra integrada en el header */
+.search-bar {
+    position: relative;
+    width: 0;
+    opacity: 0;
+    transition: width 0.4s ease, opacity 0.3s ease;
+}
+
+.search-bar.visible {
+    width: 200px;
+    opacity: 1;
+}
+
+.search-bar form {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--granate);
+}
+
+.search-bar input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 5px 5px;
+    color: var(--blanco);
     font-size: 0.9rem;
-    color: var(--gris);
+}
+
+.search-bar input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+/* SUBNAV: fusionado con el header, sin bloquear clics al estar oculto */
+.search-subnav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #0b0b0b;   /* idéntico al header */
+  border: none;
+  box-shadow: none;
+
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .25s ease, opacity .2s ease;
+  z-index: 9999;
+}
+
+.search-subnav.activo {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-subnav form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.search-subnav input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--granate);
+  color: #fff;
+  font-size: 1rem;
+  padding: 6px 8px;
+  outline: none;
+}
+
+.search-subnav input::placeholder { color: rgba(255,255,255,0.6); }
+
+.search-subnav button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.search-subnav button:hover { color: var(--granate); }
+
+.menu-arbol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-arbol > .categoria {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.categoria-titulo {
+  display: block;
+  color: var(--blanco);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color .2s ease;
+}
+
+.categoria-titulo:hover {
+  color: var(--granate);
+}
+
+/* Submenú lateral — alineado arriba y estable */
+.subnivel {
+  position: fixed;
+  top: 0;
+  left: 260px;            /* ancho exacto del menú lateral */
+  width: 280px;
+  height: 100vh;
+  background: #101010;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 30px;
+  list-style: none;
+  z-index: 3000;
+}
+
+.subnivel.activo {
+  display: flex;
 }

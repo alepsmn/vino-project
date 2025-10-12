@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Productor, Vino, Stock
+from .models import Productor, Vino, Stock, MenuLateral, EntradaMenu
 
 # Register your models here.
 
@@ -21,3 +21,21 @@ class StockAdmin(admin.ModelAdmin):
     list_filter = ('almacen',)
     search_fields = ('vino__nombre',)
     readonly_fields = ('actualizado',)
+
+class EntradaMenuInline(admin.TabularInline):
+    model = EntradaMenu
+    fk_name = "padre"
+    extra = 0
+    verbose_name = "Subentrada"
+    verbose_name_plural = "Subentradas"
+
+@admin.register(EntradaMenu)
+class EntradaMenuAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "menu", "padre", "orden", "activo")
+    list_filter = ("menu", "activo")
+    search_fields = ("nombre",)
+    inlines = [EntradaMenuInline]
+
+@admin.register(MenuLateral)
+class MenuLateralAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "activo")

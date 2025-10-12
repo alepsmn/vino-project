@@ -66,3 +66,54 @@ class TransferenciaStock(models.Model):
 
     def __str__(self):
         return f"{self.vino.nombre} — {self.cantidad} de {self.origen} a {self.destino}"
+
+'''
+Menu lateral web
+'''    
+class MenuLateral(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    activo = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Menú lateral"
+        verbose_name_plural = "Menús laterales"
+
+    def __str__(self):
+        return self.nombre
+
+class EntradaMenu(models.Model):
+    menu = models.ForeignKey(MenuLateral, on_delete=models.CASCADE, related_name="entradas")
+    nombre = models.CharField(max_length=100)
+    tipo = models.CharField(
+        max_length=50,
+        choices=[
+            ("tipo", "Tipo"),
+            ("region", "Denominación / Zona"),
+            ("pais", "País de origen"),
+            ("variedad", "Variedad"),
+            ("elaborador", "Elaborador"),
+            ("custom", "Enlace personalizado"),
+        ],
+        default="custom",
+    )
+    enlace_personalizado = models.CharField(
+        max_length=200, blank=True, null=True, help_text="Usar si tipo='Enlace Personalizado'"
+    )
+    orden = models.PositiveIntegerField(default=0)
+    activo = models.BooleanField(default=True)
+
+    # Nueva clave recursiva
+    padre = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="subentradas"
+    )
+
+    class Meta:
+        ordering = ["orden"]
+
+    def __str__(self):
+        return f"{self.nombre}"
+

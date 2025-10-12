@@ -1,16 +1,65 @@
 <header class="navbar">
     <div class="nav-container">
-        <a href="/" class="logo">Mi<span>Bodega</span></a>
+        <!-- Hamburguesa -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+        </button>
 
-        <nav class="nav-links">
-            <a href="{% url 'inventario:lista_vinos' %}">Catálogo</a>
-            <a href="{% url 'ventas:ver_carrito' %}">Carrito ({{ cart_count }})</a>
+        <!-- Logo central -->
+        <a href="/" class="logo-centro">Sentits<span>PS</span></a>
+
+        <!-- Grupo derecho: buscador + perfil -->
+        <div class="nav-derecha">
+            <button class="btn-search" id="btnSearch" aria-label="Buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21 20l-5.8-5.8A7.5 7.5 0 1 0 4.5 12a7.5 7.5 0 0 0 10.7 6.7L21 20zM6 12a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"/>
+                </svg>
+            </button>
+
+            <div id="searchBar" class="search-bar">
+                <form method="get" action="{% url 'inventario:lista_vinos' %}">
+                    <input type="text" name="q" placeholder="Buscar vinos..." />
+                </form>
+            </div>
+
             {% if user.is_authenticated %}
-                <a href="{% url 'usuarios:perfil' %}">Mi cuenta</a>
-                <a href="{% url 'usuarios:logout' %}">Salir</a>
+                <a href="{% url 'usuarios:perfil' %}" class="icono-perfil" title="Mi cuenta">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5z"/>
+                </svg>
+                </a>
             {% else %}
-                <a href="{% url 'usuarios:login' %}">Entrar / Registrarse</a>
+                <a href="{% url 'usuarios:login' %}" class="icono-perfil" title="Entrar / Registrarse">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5z"/>
+                </svg>
+                </a>
             {% endif %}
-        </nav>
+        </div>
     </div>
+   <!-- Subnav de búsqueda -->
+    <div id="searchSubnav" class="search-subnav">
+        <form method="get" action="{% url 'inventario:lista_vinos' %}">
+            <input type="text" name="q" placeholder="Buscar vinos..." />
+            <button type="submit" aria-label="Buscar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21 20l-5.8-5.8A7.5 7.5 0 1 0 4.5 12a7.5 7.5 0 0 0 10.7 6.7L21 20zM6 12a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"/>
+            </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Menú lateral -->
+    <nav id="menuLateral" class="menu-lateral">
+        <button class="cerrar-menu" id="cerrarMenu" aria-label="Cerrar menú">&times;</button>
+
+        <ul class="menu-arbol">
+            {% for item in menu_estructurado %}
+                {% include "includes/menu_item.html" with item=item %}
+            {% endfor %}
+        </ul>
+    </nav>
 </header>

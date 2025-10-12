@@ -3,13 +3,6 @@
 
 {% block content %}
 <section class="catalogo">
-    <h1 class="titulo-seccion">Catálogo de Vinos</h1>
-
-    <form method="get" action="." class="buscador-vinos">
-        <input type="text" name="q" placeholder="Buscar por nombre, tipo o productor..." value="{{ request.GET.q }}">
-        <button type="submit">Buscar</button>
-    </form>
-
     <div class="grid-vinos">
         {% for vino in vinos %}
             <div class="vino-card">
