@@ -1,218 +1,269 @@
-/* ==== NAVBAR LIMPIO ==== */
-/* HEADER PRINCIPAL */
+/* =========================================================
+   NAVBAR + MENÚ LATERAL + BUSCADOR — Layout Limpio 2025
+   ========================================================= */
+
+/* ---------------- NAVBAR ---------------- */
 .navbar {
-  position: relative;
-  background: #0b0b0b;   /* tono único */
+  position: sticky;         /* permanece visible arriba */
+  top: 0;
+  background: #0b0b0b;
   border: none;
   padding: 15px 40px;
   box-shadow: none;
+  transition: transform 0.35s ease;
+  z-index: 5000;
+}
+
+.navbar.oculto {
+  transform: translateY(-100%);
 }
 
 .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 
-/* Lado derecho: buscador + perfil */
-.nav-derecha {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Logo centrado */
 .logo-centro {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: "Playfair Display", serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--blanco);
-    letter-spacing: 1px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--blanco);
+  letter-spacing: 1px;
 }
 .logo-centro span { color: var(--granate); }
 
-/* Hamburguesa */
-.menu-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    padding: 5px;
-}
-.menu-toggle span {
-    width: 24px;
-    height: 2px;
-    background: var(--blanco);
-    border-radius: 2px;
-    transition: all 0.3s ease;
+.nav-derecha {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
 }
 
 /* Icono perfil */
 .icono-perfil svg {
-    width: 26px;
-    height: 26px;
-    color: var(--blanco);
-    transition: color 0.3s ease;
+  width: 26px;
+  height: 26px;
+  color: var(--blanco);
+  transition: color 0.3s ease;
 }
 .icono-perfil:hover svg { color: var(--granate); }
 
-/* ==== MENÚ LATERAL ==== */
+/* Hamburguesa */
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px;
+}
+.menu-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--blanco);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* ---------------- MENÚ LATERAL ---------------- */
 .menu-lateral {
   position: fixed;
   top: 0;
   left: 0;
   width: 260px;
-  height: 100%;
+  height: 100vh;
   background: #181818;
-  box-shadow: 3px 0 10px rgba(0,0,0,0.6);
-  overflow-y: visible; /* antes: auto */
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.6);
   padding: 40px 20px;
   transform: translateX(-100%);
   transition: transform 0.35s ease;
-  z-index: 2000; /* aumenta prioridad */
+  overflow: visible;
+  z-index: 2000;
 }
-
 .menu-lateral.activo {
-    transform: translateX(0);
-    box-shadow: 3px 0 10px rgba(0,0,0,0.6);
-}
-.menu-arbol,
-.menu-arbol ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-.menu-arbol > li { margin-bottom: 15px; }
-.menu-arbol a {
-    color: var(--blanco);
-    font-weight: 400;
-    text-decoration: none;
-    display: block;
-    padding: 6px 0;
-    transition: color 0.2s ease;
-}
-.menu-arbol a:hover { color: var(--granate); }
-.menu-arbol ul {
-    padding-left: 15px;
-    border-left: 1px solid rgba(255,255,255,0.1);
-    margin-top: 5px;
+  transform: translateX(0);
 }
 
-/* ==== OVERLAY ==== */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(10, 10, 10, 0.7);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
-    z-index: 900;
-}
-.overlay.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Botón de cierre menú lateral */
+/* Botón cierre menú */
 .cerrar-menu {
-    background: none;
-    border: none;
-    color: var(--blanco);
-    font-size: 2rem;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    cursor: pointer;
-    transition: color 0.2s ease;
+  background: none;
+  border: none;
+  color: var(--blanco);
+  font-size: 2rem;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 .cerrar-menu:hover { color: var(--granate); }
 
-/* ==== BUSCADOR INLINE ==== */
-.nav-derecha {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    position: relative;
+/* Estructura árbol */
+.menu-arbol,
+.menu-arbol ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
+.menu-arbol > li {
+  margin-bottom: 15px;
+}
+
+.menu-arbol a {
+  display: block;
+  color: var(--blanco);
+  font-weight: 400;
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+.menu-arbol a:hover { color: var(--granate); }
+
+/* Categorías */
+.menu-arbol > .categoria {
+  position: relative;
+  margin-bottom: 10px;
+}
+.categoria-titulo {
+  display: block;
+  color: var(--blanco);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+.categoria-titulo:hover { color: var(--granate); }
+
+/* ---------------- SUBMENÚ LATERAL ---------------- */
+.subnivel {
+  position: fixed;
+  top: 0;
+  left: 260px;
+  width: 260px;
+  height: 100vh;
+  background: #202020;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  transform: translateX(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.categoria:hover > .subnivel,
+.categoria:focus-within > .subnivel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.subnivel > li {
+  width: 100%;
+  list-style: none;
+}
+
+.subnivel > li > a {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  color: var(--blanco);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.subnivel > li > a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--granate);
+}
+
+/* ---------------- OVERLAY ---------------- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  z-index: 900;
+}
+.overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---------------- BUSCADOR ---------------- */
 .btn-search {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    color: var(--blanco);
-    transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--blanco);
+  transition: color 0.2s ease;
 }
-
 .btn-search:hover { color: var(--granate); }
 .btn-search svg { width: 22px; height: 22px; }
 
-/* Barra integrada en el header */
 .search-bar {
-    position: relative;
-    width: 0;
-    opacity: 0;
-    transition: width 0.4s ease, opacity 0.3s ease;
+  position: relative;
+  width: 0;
+  opacity: 0;
+  transition: width 0.4s ease, opacity 0.3s ease;
 }
-
 .search-bar.visible {
-    width: 200px;
-    opacity: 1;
+  width: 200px;
+  opacity: 1;
 }
-
 .search-bar form {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--granate);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--granate);
 }
-
 .search-bar input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 5px 5px;
-    color: var(--blanco);
-    font-size: 0.9rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 5px 5px;
+  color: var(--blanco);
+  font-size: 0.9rem;
 }
+.search-bar input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
-.search-bar input::placeholder {
-    color: rgba(255,255,255,0.5);
-}
-
-/* SUBNAV: fusionado con el header, sin bloquear clics al estar oculto */
+/* Subnav del buscador */
 .search-subnav {
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
-  background: #0b0b0b;   /* idéntico al header */
+  background: #0b0b0b;
   border: none;
   box-shadow: none;
-
   transform: translateY(-8px);
   opacity: 0;
   pointer-events: none;
   transition: transform .25s ease, opacity .2s ease;
-  z-index: 9999;
+  z-index: 5100;
 }
-
 .search-subnav.activo {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
-
 .search-subnav form {
   display: flex;
   align-items: center;
@@ -222,7 +273,6 @@
   max-width: 900px;
   margin: 0 auto;
 }
-
 .search-subnav input {
   flex: 1;
   background: transparent;
@@ -233,9 +283,7 @@
   padding: 6px 8px;
   outline: none;
 }
-
-.search-subnav input::placeholder { color: rgba(255,255,255,0.6); }
-
+.search-subnav input::placeholder { color: rgba(255, 255, 255, 0.6); }
 .search-subnav button {
   background: none;
   border: none;
@@ -245,47 +293,26 @@
 }
 .search-subnav button:hover { color: var(--granate); }
 
-.menu-arbol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+/* ---------------- Z-INDEX Y CORRECCIONES ---------------- */
+.overlay { z-index: 900; }
+.subnivel { z-index: 1500; }
+.menu-lateral { z-index: 2000; }
+.navbar { z-index: 5000; }
+.search-subnav { z-index: 5100; }
 
-.menu-arbol > .categoria {
+/* Evita que las tarjetas sobrepasen el header */
+.card, .tarjeta, .producto-card {
   position: relative;
-  margin-bottom: 10px;
+  z-index: 1;
+}
+.card:hover, .tarjeta:hover, .producto-card:hover {
+  transform: translateY(-4px);
+  z-index: 1;
 }
 
-.categoria-titulo {
-  display: block;
-  color: var(--blanco);
-  font-weight: 600;
-  cursor: pointer;
-  padding: 6px 0;
-  transition: color .2s ease;
-}
-
-.categoria-titulo:hover {
-  color: var(--granate);
-}
-
-/* Submenú lateral — alineado arriba y estable */
-.subnivel {
-  position: fixed;
-  top: 0;
-  left: 260px;            /* ancho exacto del menú lateral */
-  width: 280px;
-  height: 100vh;
-  background: #101010;
-  border-left: 1px solid rgba(255,255,255,0.1);
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px 30px;
-  list-style: none;
-  z-index: 3000;
-}
-
-.subnivel.activo {
-  display: flex;
+/* Neutraliza stacking context en contenedores */
+.catalogo, .grid, main {
+  transform: none !important;
+  will-change: auto;
+  z-index: 1;
 }

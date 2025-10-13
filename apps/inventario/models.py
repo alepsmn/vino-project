@@ -55,7 +55,9 @@ class Stock(models.Model):
         unique_together = ('vino', 'almacen')
 
     def __str__(self):
-        return f"{self.vino.nombre} ({self.tienda.nombre}) — {self.cantidad}"
+        if self.almacen:
+            return f"{self.vino.nombre} ({self.almacen.nombre}) — {self.cantidad}"
+        return f"{self.vino.nombre} — {self.cantidad}"
     
 class TransferenciaStock(models.Model):
     origen = models.ForeignKey(Almacen, related_name='transferencias_salida', on_delete=models.CASCADE)

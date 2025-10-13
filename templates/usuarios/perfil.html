@@ -39,5 +39,6 @@
   {% empty %}
     <p>No tienes pedidos registrados.</p>
   {% endfor %}
+  <a href="{% url 'logout' %}" class="btn-logout">Salir de mi cuenta</a>
 </section>
 {% endblock %}

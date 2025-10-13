@@ -45,6 +45,13 @@ function toggleMenu(estado) {
 
 toggle?.addEventListener('click', e => {
   e.stopPropagation();
+
+  // Cierra la barra de búsqueda si está abierta
+  const searchSubnav = document.getElementById("searchSubnav");
+  if (searchSubnav && searchSubnav.classList.contains("activo")) {
+    searchSubnav.classList.remove("activo");
+  }
+
   toggleMenu(true);
 });
 
@@ -83,3 +90,34 @@ document.querySelectorAll('.categoria').forEach(cat => {
   sub.addEventListener('mouseleave', () => sub.classList.remove('activo'));
 });
 
+// === Ocultar/mostrar navbar con desplazamiento amortiguado ===
+let lastScrollY = window.scrollY;
+let acumulado = 0;
+let oculto = false;
+const umbral = 40;      // sensibilidad total (ajusta según preferencia)
+const friccion = 0.85;  // disipación gradual
+
+window.addEventListener('scroll', () => {
+  const currentY = window.scrollY;
+  const delta = currentY - lastScrollY;
+
+  // acumula desplazamiento
+  acumulado = acumulado * friccion + delta;
+
+  // ocultar al acumular desplazamiento descendente suficiente
+  if (acumulado > umbral && !oculto) {
+    document.querySelector('.navbar')?.classList.add('oculto');
+    document.querySelector('.search-subnav')?.classList.remove('activo');
+    oculto = true;
+    acumulado = 0; // reinicia después de ocultar
+  }
+
+  // mostrar al acumular desplazamiento ascendente suficiente
+  if (acumulado < -umbral && oculto) {
+    document.querySelector('.navbar')?.classList.remove('oculto');
+    oculto = false;
+    acumulado = 0;
+  }
+
+  lastScrollY = currentY;
+});
