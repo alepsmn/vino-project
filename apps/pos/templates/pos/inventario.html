@@ -5,24 +5,30 @@
 {% block content %}
 <div class="buscador">
     <form method="get" action="{% url 'pos:inventario_pos' %}">
-        <input type="text" name="q" placeholder="Buscar vino por nombre o código..." value="{{ query }}">
+        <input type="text" name="q" placeholder="Buscar producto por nombre o código..." value="{{ query }}">
         <button type="submit">Buscar</button>
     </form>
 </div>
 
 <div class="productos-grid">
-    {% for vino in vinos %}
+    {% for p in productos %}
         <div class="producto">
-            <h3>{{ vino.nombre }}</h3>
-            <p class="tipo">{{ vino.tipo|title }}</p>
-            <p class="precio">{{ vino.precio_venta }} €</p>
+            <h3>{{ p.nombre }}</h3>
+            <p class="tipo">{{ p.tipo|title }}</p>
+            <p class="precio">
+                {% if p.precio_venta %}
+                    {{ p.precio_venta }} €
+                {% else %}
+                    <span class="sin-precio">Sin precio</span>
+                {% endif %}
+            </p>
             <p class="stock">
                 Stock disponible:
-                <strong>{{ vino.stock_cantidad|default:0 }}</strong>
+                <strong>{{ p.stock_cantidad|default:0 }}</strong>
             </p>
         </div>
     {% empty %}
-        <p>No hay vinos registrados en el inventario.</p>
+        <p>No hay productos registrados en el inventario.</p>
     {% endfor %}
 </div>
 {% endblock %}

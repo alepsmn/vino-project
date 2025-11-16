@@ -7,22 +7,25 @@ from .models import Venta, DetalleVenta
 class DetalleVentaInline(admin.TabularInline):
     model = DetalleVenta
     extra = 0
-    readonly_fields = ['vino', 'cantidad', 'precio_unitario', 'subtotal']
+    readonly_fields = ['producto', 'cantidad', 'precio_unitario', 'subtotal']
 
 @admin.action(description="Exportar ventas seleccionadas a CSV")
 def exportar_csv(modeladmin, request, queryset):
-    response = HttpResponse(content_type="text/csv")
+    response = HttpResponse(content_type="text/csv; charset=utf-8")
     response['Content-Disposition'] = 'attachment; filename=ventas.csv'
     writer = csv.writer(response)
-    writer.writerow(['ID', 'Cliente', 'Fecha', 'Total', 'Pagado'])
-    for v in queryset:
+    writer.writerow(["ID", "Cliente", "Fecha", "Total (€)", "Pagado", "Método de Pago"])
+
+    for venta in queryset:
         writer.writerow([
-            v.id,
-            v.cliente.username if v.cliente else '',
-            v.fecha,
-            v.total,
-            v.pagado
+            venta.id,
+            venta.cliente.username if venta.cliente else (venta.cliente_nombre or "Anónimo"),
+            venta.fecha.strftime("%Y-%m-%d %H:%M"),
+            f"{venta.total:.2f}",
+            "Sí" if venta.pagado else "No",
+            venta.get_metodo_pago_display(),
         ])
+
     return response
 
 @admin.register(Venta)
@@ -36,4 +39,4 @@ class VentaAdmin(admin.ModelAdmin):
 
 @admin.register(DetalleVenta)
 class DetalleVentaAdmin(admin.ModelAdmin):
-    list_display = ('venta', 'vino', 'cantidad', 'precio_unitario', 'subtotal')
+    list_display = ('venta', 'producto', 'cantidad', 'precio_unitario', 'subtotal')

@@ -3,6 +3,7 @@ from django.views.decorators.http import require_GET
 from django.contrib import messages  # al inicio del archivo
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.db import transaction
 from apps.ventas.models import Venta
 from apps.core.models import Almacen
 from apps.usuarios.forms import PerfilClienteForm
@@ -18,23 +19,23 @@ def ver_carrito(request):
     cart = Cart(request)
     return render(request, 'ventas/carrito.html', {'cart': cart})
 
-def agregar_carrito(request, vino_id):
+def agregar_carrito(request, producto_id):
     cart = Cart(request)
     cantidad = int(request.POST.get('cantidad', 1))
-    cart.add(vino_id, cantidad)
+    cart.add(producto_id, cantidad)
     messages.success(request, f"Se añadieron {cantidad} unidad(es) al carrito.")
     # Redirige a la página anterior en lugar del carrito
     return redirect(request.META.get('HTTP_REFERER', 'inventario:lista_vinos'))
 
-def restar_carrito(request, vino_id):
+def restar_carrito(request, producto_id):
     cart = Cart(request)
     cantidad = int(request.POST.get('cantidad', 1))
-    cart.subtract(vino_id, cantidad)
+    cart.subtract(producto_id, cantidad)
     return redirect('ventas:ver_carrito')
 
-def eliminar_carrito(request, vino_id):
+def eliminar_carrito(request, producto_id):
     cart = Cart(request)
-    cart.remove(vino_id)
+    cart.remove(producto_id)
     return redirect('ventas:ver_carrito')
 
 @login_required
@@ -56,18 +57,23 @@ def checkout(request):
     almacen_central = Almacen.objects.get(nombre='Central')
 
     # Verificar stock
-    for item in cart:
-        stock = item['vino'].stock_set.filter(almacen=almacen_central).first()
-        if not stock or stock.cantidad < item['cantidad']:
-            messages.error(request, f"Stock insuficiente para {item['vino'].nombre}.")
-            return redirect('ventas:tramitar_pedido')
+    with transaction.atomic():
+        for item in cart:
+            stock = (item['producto']
+                    .stock_set
+                    .select_for_update()
+                    .filter(almacen=almacen_central)
+                    .first())
+            if not stock or stock.cantidad < item['cantidad']:
+                messages.error(request, f"Stock insuficiente para {item['producto'].nombre}.")
+                return redirect('ventas:tramitar_pedido')
 
     # Crear venta pendiente
     venta = Venta.objects.create(cliente=request.user, total=cart.total(), pagado=False)
     for item in cart:
         DetalleVenta.objects.create(
             venta=venta,
-            vino=item['vino'],
+            producto=item['producto'],
             cantidad=item['cantidad'],
             precio_unitario=item['precio'],
             subtotal=item['subtotal']
@@ -119,10 +125,8 @@ def pago_view(request, venta_id):
 @require_GET
 @login_required
 def confirmacion_view(request):
-    # depuracion consola
     payment_intent = request.GET.get("payment_intent")
 
-    # Última venta no pagada del usuario
     ultima = (
         Venta.objects.filter(cliente=request.user)
         .order_by("-fecha")
@@ -130,19 +134,18 @@ def confirmacion_view(request):
     )
 
     if ultima and not ultima.pagado:
-        ultima.pagado = True
-        ultima.save(update_fields=["pagado"])
-
         almacen_central = Almacen.objects.get(nombre="Central")
-        for detalle in ultima.detalles.all():
-            stock = detalle.vino.stock_set.filter(almacen=almacen_central).first()
-            if stock:
-                stock.cantidad = max(0, stock.cantidad - detalle.cantidad)
-                stock.save(update_fields=["cantidad"])
 
-        # Aquí sí se limpia el carrito tras confirmar el pago
+        try:
+            ultima.descontar_stock(almacen_central)
+            ultima.pagado = True
+            ultima.save(update_fields=["pagado"])
+        except Exception as e:
+            messages.error(request, f"Error al actualizar stock: {e}")
+            return redirect("ventas:ver_carrito")
+
+        # limpiar carrito tras confirmar
         from apps.ventas.cart import Cart
-        cart = Cart(request)
-        cart.clear()
+        Cart(request).clear()
 
     return render(request, "ventas/confirmacion.html", {"venta": ultima})

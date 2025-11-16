@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Mi Bodega — Inicio{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <h1>Bienvenido a Mi Bodega</h1>
+    <p>Vinos seleccionados, destilados exclusivos y pasión por el detalle.</p>
+    <a href="{% url 'inventario:catalogo' %}" class="btn-principal">Ver catálogo completo</a>
+  </div>
+</section>
+
+<section class="destacados">
+  <h2>Ofertas destacadas</h2>
+  <div class="grid-vinos">
+    {% for p in productos_destacados %}
+      <div class="vino-card">
+        <h3>{{ p.nombre }}</h3>
+        <p>{{ p.productor.nombre }}</p>
+        <p><strong>{{ p.precio_venta }} €</strong></p>
+        <a href="{% url 'inventario:detalle_producto' p.id %}" class="btn-secundario">Ver</a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="bodegas">
+  <h2>Bodegas con las que trabajamos</h2>
+  <div class="grid-bodegas">
+    {% for b in productores %}
+      <div class="bodega-card">
+        <h4>{{ b.nombre }}</h4>
+        <p>{{ b.pais }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

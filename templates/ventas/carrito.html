@@ -9,7 +9,7 @@
         <table class="tabla-carrito">
             <thead>
                 <tr>
-                    <th>Vino</th>
+                    <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
                     <th>Subtotal</th>
@@ -19,12 +19,12 @@
             <tbody>
                 {% for item in cart %}
                     <tr>
-                        <td>{{ item.vino.nombre }}</td>
+                        <td>{{ item.producto.nombre }}</td>
                         <td>{{ item.cantidad }}</td>
                         <td>{{ item.precio }} €</td>
                         <td>{{ item.subtotal }} €</td>
                         <td>
-                            <a href="{% url 'ventas:eliminar_carrito' item.vino.id %}" class="btn-eliminar">✕</a>
+                            <a href="{% url 'ventas:eliminar_carrito' item.producto.id %}" class="btn-eliminar">✕</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -34,7 +34,7 @@
         <div class="resumen-carrito">
             <p>Total: <span>{{ cart.total }} €</span></p>
             <div class="acciones-carrito">
-                <a href="{% url 'inventario:lista_vinos' %}" class="btn-secundario">Seguir comprando</a>
+                <a href="{% url 'inventario:catalogo' %}" class="btn-secundario">Seguir comprando</a>
                 <a href="{% url 'ventas:tramitar_pedido' %}" class="btn-principal">Tramitar pedido</a>
             </div>
         </div>
@@ -42,7 +42,7 @@
     {% else %}
         <p class="sin-resultados">Tu carrito está vacío.</p>
         <div style="text-align:center; margin-top:20px;">
-            <a href="{% url 'inventario:lista_vinos' %}" class="btn-principal">Volver al catálogo</a>
+            <a href="{% url 'inventario:catalogo' %}" class="btn-principal">Volver al catálogo</a>
         </div>
     {% endif %}
 </section>

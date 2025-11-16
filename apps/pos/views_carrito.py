@@ -6,34 +6,33 @@ from .utils.carrito_pos import CarritoPOS
 from .views import empleado_required
 
 @empleado_required
-def agregar_carrito(request, vino_id):
+def agregar_carrito(request, producto_id):
     token = request.session.get("api_token")
     api = POSAPIClient(token)
     cantidad = int(request.POST.get("cantidad", 1))
 
-    # Obtener inventario (stock) en lugar de /vinos/
     response = api.session.get(f"{api.base_url}/stock/")
     data = response.json()
     stock_items = data.get("results", data)
 
-    vino = None
+    producto = None
     for s in stock_items:
-        if s["vino"]["id"] == vino_id:
-            vino = s["vino"]
-            vino["stock_cantidad"] = s.get("cantidad", 0)
+        if s["producto"]["id"] == int(producto_id):
+            producto = s["producto"]
+            producto["stock_cantidad"] = s.get("cantidad", 0)
             break
 
-    if not vino:
-        messages.error(request, "Vino no encontrado en el inventario.")
+    if not producto:
+        messages.error(request, "Producto no encontrado en el inventario.")
         return redirect("pos:panel_pos")
 
-    if vino["stock_cantidad"] < cantidad:
+    if producto["stock_cantidad"] < cantidad:
         messages.error(request, "Cantidad superior al stock disponible.")
         return redirect("pos:panel_pos")
 
     carrito = CarritoPOS(request)
-    carrito.agregar(vino, cantidad)
-    messages.success(request, f"{vino['nombre']} x{cantidad} añadido al carrito.")
+    carrito.agregar(producto, cantidad)
+    messages.success(request, f"{producto['nombre']} x{cantidad} añadido al carrito.")
     return redirect("pos:panel_pos")
 
 @empleado_required
@@ -74,12 +73,10 @@ def finalizar_venta(request):
         return redirect("pos:panel_pos")
 
     detalles = []
-    for vino_id, item in carrito.carrito.items():
+    for producto_id, item in carrito.carrito.items():
         detalles.append({
-            "vino": int(vino_id),
+            "producto": int(producto_id),
             "cantidad": item["cantidad"],
-            "precio_unitario": float(item["precio_unitario"]),
-            "subtotal": float(Decimal(item["subtotal"]))
         })
 
     total = carrito.total()

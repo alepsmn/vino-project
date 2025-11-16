@@ -1,0 +1,24 @@
+.btn-principal,
+.btn-secundario {
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-principal {
+    background: var(--color-oro);
+    color: var(--color-negro);
+    font-weight: 500;
+}
+
+.btn-secundario {
+    background: transparent;
+    color: var(--color-blanco);
+    border-color: rgba(255,255,255,0.2);
+}

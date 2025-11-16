@@ -4,17 +4,17 @@
 {% block content %}
 <section class="catalogo">
     <div class="grid-vinos">
-        {% for vino in vinos %}
+        {% for p in productos %}
             <div class="vino-card">
                 <div class="vino-info">
-                    <h3>{{ vino.nombre }}</h3>
-                    <p class="tipo">{{ vino.tipo|title }}</p>
-                    <p class="productor">{{ vino.productor.nombre }}</p>
-                    <p class="precio">{{ vino.precio_venta }} €</p>
+                    <h3>{{ p.nombre }}</h3>
+                    <p class="tipo">{{ p.tipo|title }}</p>
+                    <p class="productor">{{ p.productor.nombre }}</p>
+                    <p class="precio">{{ p.precio_venta }} €</p>
                 </div>
                 <div class="vino-actions">
-                    {% if vino.activo %}
-                        <form method="post" action="{% url 'ventas:agregar_carrito' vino.id %}">
+                    {% if p.activo %}
+                        <form method="post" action="{% url 'ventas:agregar_carrito' p.id %}">
                             {% csrf_token %}
                             <input type="hidden" name="cantidad" value="1">
                             <button type="submit" class="btn-add">Añadir</button>

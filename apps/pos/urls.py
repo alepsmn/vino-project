@@ -12,7 +12,7 @@ urlpatterns = [
 
     # Carrito POS
     path("carrito/", views_carrito.ver_carrito, name="ver_carrito"),
-    path("carrito/agregar/<int:vino_id>/", views_carrito.agregar_carrito, name="agregar_carrito"),
+    path('carrito/agregar/<int:producto_id>/', views_carrito.agregar_carrito, name='agregar_carrito'),
     path("carrito/eliminar/<int:vino_id>/", views_carrito.eliminar_carrito, name="eliminar_carrito"),
     path("carrito/limpiar/", views_carrito.limpiar_carrito, name="limpiar_carrito"),
     path("carrito/finalizar/", views_carrito.finalizar_venta, name="finalizar_venta"),

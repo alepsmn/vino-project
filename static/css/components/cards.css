@@ -1,0 +1,11 @@
+.grid-vinos {
+    display: grid;
+    gap: 16px;
+}
+
+.vino-card {
+    background: var(--color-superficie);
+    border-radius: var(--radius-md);
+    padding: 14px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}

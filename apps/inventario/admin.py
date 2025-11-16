@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Productor, Vino, Stock, MenuLateral, EntradaMenu
+from .models import Productor, Vino, Stock, MenuLateral, EntradaMenu, Destilado
 
 # Register your models here.
 
@@ -15,9 +15,15 @@ class VinoAdmin(admin.ModelAdmin):
     list_filter = ('tipo', 'productor__pais', 'activo')
     search_fields = ('nombre', 'productor__nombre', 'denominacion_origen', 'uvas', 'codigo_barras')
 
+@admin.register(Destilado)
+class DestiladoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'subtipo', 'volumen_cl', 'grado_alcohol', 'precio_venta')
+    list_filter = ('subtipo',)
+    search_fields = ('nombre', 'productor__nombre')
+
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('vino', 'almacen', 'cantidad', 'actualizado')
+    list_display = ('producto', 'almacen', 'cantidad', 'actualizado')
     list_filter = ('almacen',)
     search_fields = ('vino__nombre',)
     readonly_fields = ('actualizado',)

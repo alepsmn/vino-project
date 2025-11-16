@@ -1,12 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
+from apps.core.models import Tienda
 
 # Create your models here.
 
 class Terminal(models.Model):
     nombre = models.CharField(max_length=50)
-    tienda = models.CharField(max_length=100)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    tienda = models.ForeignKey(Tienda, on_delete=models.PROTECT, related_name='terminales')
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     activo = models.BooleanField(default=True)
 
     def __str__(self):

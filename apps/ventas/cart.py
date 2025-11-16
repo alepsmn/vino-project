@@ -1,5 +1,5 @@
 from decimal import Decimal
-from apps.inventario.models import Vino
+from apps.inventario.models import Producto
 
 
 class Cart:
@@ -20,17 +20,17 @@ class Cart:
             self.session[self.user_key] = cart
         self.cart = cart
 
-    def add(self, vino_id, cantidad=1):
-        vino_id = str(vino_id)
-        vino = Vino.objects.get(id=vino_id)
-        if vino_id not in self.cart:
+    def add(self, producto_id, cantidad=1):
+        producto_id = str(producto_id)
+        producto = Producto.objects.get(id=producto_id)
+        if producto_id not in self.cart:
             # Todos los valores convertidos a tipos JSON serializables
-            self.cart[vino_id] = {
-                "nombre": str(vino.nombre),
-                "precio": str(vino.precio_venta),  # string, no Decimal
+            self.cart[producto_id] = {
+                "nombre": str(producto.nombre),
+                "precio": str(producto.precio_venta),  # string, no Decimal
                 "cantidad": 0
             }
-        self.cart[vino_id]["cantidad"] += int(cantidad)
+        self.cart[producto_id]["cantidad"] += int(cantidad)
         self.save()
 
     def subtract(self, vino_id, cantidad=1):
@@ -65,12 +65,12 @@ class Cart:
         self.cart = safe_cart  # mantener sincronizado
 
     def __iter__(self):
-        for vino_id, item in self.cart.items():
+        for producto_id, item in self.cart.items():
             try:
                 precio_decimal = Decimal(item["precio"])
             except Exception:
                 precio_decimal = Decimal(str(item["precio"]))
-            vino = Vino.objects.filter(id=vino_id).first()
+            vino = Producto.objects.filter(id=producto_id).first()
             if vino:
                 yield {
                     "vino": vino,

@@ -9,31 +9,31 @@
     <section class="columna izquierda">
         <form class="buscador-pos" method="post" action="{% url 'pos:buscar_codigo' %}">
             {% csrf_token %}
-            <input type="text" name="codigo" placeholder="Buscar vino por nombre o código..." autofocus>
+            <input type="text" name="codigo" placeholder="Buscar producto por nombre o código..." autofocus>
             <button type="submit">Buscar</button>
         </form>
 
         <div class="inventario-lista">
-            {% for vino in vinos %}
-                <div class="item-vino">
-                    <div class="vino-info">
-                        <h3>{{ vino.nombre }}</h3>
-                        <p class="tipo">{{ vino.tipo|title }}</p>
-                        <p class="precio">{{ vino.precio_venta }} €</p>
-                        <p class="stock">Stock: {{ vino.stock_cantidad|default:0 }}</p>
-                    </div>
-                    {% if vino.stock_cantidad|default:0 > 0 %}
-                        <form method="post" action="{% url 'pos:agregar_carrito' vino.id %}" class="form-add">
-                            {% csrf_token %}
-                            <input type="number" name="cantidad" value="1" min="1" max="{{ vino.stock_cantidad }}">
-                            <button type="submit">➕</button>
-                        </form>
-                    {% else %}
-                        <span class="agotado">Agotado</span>
-                    {% endif %}
+            {% for p in productos %}
+            <div class="item-producto">
+                <div class="producto-info">
+                    <h3>{{ p.nombre }}</h3>
+                    <p class="tipo">{{ p.tipo|title }}</p>
+                    <p class="precio">{{ p.precio_venta }} €</p>
+                    <p class="stock">Stock: {{ p.stock_cantidad|default:0 }}</p>
                 </div>
+                {% if p.stock_cantidad|default:0 > 0 %}
+                    <form method="post" action="{% url 'pos:agregar_carrito' p.id %}" class="form-add">
+                        {% csrf_token %}
+                        <input type="number" name="cantidad" value="1" min="1" max="{{ p.stock_cantidad }}">
+                        <button type="submit">➕</button>
+                    </form>
+                {% else %}
+                    <span class="agotado">Agotado</span>
+                {% endif %}
+            </div>
             {% empty %}
-                <p>No hay vinos en inventario o no se encontraron resultados.</p>
+                <p>No hay productos en inventario o no se encontraron resultados.</p>
             {% endfor %}
         </div>
     </section>

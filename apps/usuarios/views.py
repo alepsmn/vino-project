@@ -1,29 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import PerfilCliente
-from .forms import PerfilClienteForm
+from .forms import PerfilClienteForm, RegistroForm
 from apps.ventas.models import Venta
-from django.contrib.auth.models import User
 from django.contrib import messages
 
 # Create your views here.
 
 def registro(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "El usuario ya existe.")
-        else:
-            user = User.objects.create_user(username=username, email=email, password=password)
-            PerfilCliente.objects.create(user=user)
+    if request.method == "POST":
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            form.save()
             messages.success(request, "Cuenta creada correctamente. Ahora puedes iniciar sesión.")
-            return redirect('usuarios:login')
+            return redirect("usuarios:login")
+        else:
+            messages.error(request, "Corrige los errores en el formulario.")
+    else:
+        form = RegistroForm()
 
-    return render(request, 'usuarios/registro.html')
+    return render(request, "usuarios/registro.html", {"form": form})
 
 def login_view(request):
     if request.method == 'POST':

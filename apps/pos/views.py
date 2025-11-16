@@ -5,7 +5,6 @@ from django.contrib.auth import login, authenticate, logout
 from django.db.models import Sum, F, DecimalField, ExpressionWrapper
 from django.utils.timezone import now
 from apps.ventas.models import DetalleVenta
-from functools import wraps
 from .utils.carrito_pos import CarritoPOS
 import requests
 
@@ -73,21 +72,24 @@ def logout_pos(request):
 def panel_pos(request):
     token = request.session.get("api_token")
     api = POSAPIClient(token=token)
-    respuesta = api.session.get(f"{api.base_url}/stock/")
-    data = respuesta.json()
-    stock_items = data.get("results", data)
-    vinos = []
-    for item in stock_items:
-        vino = item.get("vino")
-        if vino:
-            vino["stock_cantidad"] = item.get("cantidad", 0)
-            vinos.append(vino)
+    productos = []
+    url = f"{api.base_url}/stock/"
+    while url:
+        respuesta = api.session.get(url)
+        data = respuesta.json()
+        for item in data.get("results", []):
+            producto = item.get("producto")
+            if producto:
+                producto["stock_cantidad"] = item.get("cantidad", 0)
+                productos.append(producto)
+        url = data.get("next")  # avanza de página
+
 
     carrito = CarritoPOS(request)
     contexto = {
-        "vinos": vinos,
-        "carrito": carrito.items(),
-        "total": carrito.total()
+    "productos": productos,
+    "carrito": carrito.items(),
+    "total": carrito.total()
     }
     return render(request, "pos/panel.html", contexto)
 
@@ -96,28 +98,27 @@ def inventario_pos(request):
     token = request.session.get("api_token")
     api = POSAPIClient(token=token)
 
-    # Si hay búsqueda
     query = request.GET.get("q", "").strip()
+    productos = []
     url = f"{api.base_url}/stock/"
     if query:
         url += f"?search={query}"
 
-    respuesta = api.session.get(url)
-    data = respuesta.json()
-    stock_items = data.get("results", data)
+    # paginación
+    while url:
+        respuesta = api.session.get(url)
+        data = respuesta.json()
+        for item in data.get("results", []):
+            producto = item.get("producto")
+            if producto:
+                producto["stock_cantidad"] = item.get("cantidad", 0)
+                productos.append(producto)
+        url = data.get("next")
 
-    vinos = []
-    for item in stock_items:
-        vino = item.get("vino")
-        if vino:
-            vino["stock_cantidad"] = item.get("cantidad", 0)
-            vinos.append(vino)
-
-    return render(request, "pos/inventario.html", {"vinos": vinos, "query": query})
-
+    return render(request, "pos/inventario.html", {"productos": productos, "query": query})
 
 @empleado_required
-def registrar_venta_pos(request, vino_id):
+def registrar_venta_pos(request, producto_id):
     if request.method != "POST":
         return redirect("pos:panel_pos")
 
@@ -132,9 +133,9 @@ def registrar_venta_pos(request, vino_id):
 
     # Construcción del payload de venta
     try:
-        vino_id = int(vino_id)
-        vino = next(v for v in api.get_vinos().get("results", []) if v["id"] == vino_id)
-        precio_unitario = float(vino["precio_venta"])
+        producto_id = int(producto_id)
+        producto = next(p for p in api.session.get(f"{api.base_url}/productos/").json().get("results", []) if p["id"] == producto_id)
+        precio_unitario = float(producto["precio_venta"])
         subtotal = precio_unitario * cantidad
     except StopIteration:
         messages.error(request, "Vino no encontrado en la API.")
@@ -142,7 +143,7 @@ def registrar_venta_pos(request, vino_id):
 
     detalles = [
         {
-            "vino": vino_id,
+            "producto_id": producto_id,
             "cantidad": cantidad,
             "precio_unitario": precio_unitario,
             "subtotal": subtotal,
@@ -152,7 +153,7 @@ def registrar_venta_pos(request, vino_id):
     resultado = api.registrar_venta(detalles)
 
     if isinstance(resultado, dict) and resultado.get("id"):
-        messages.success(request, f"Venta registrada correctamente: {vino['nombre']} x{cantidad}.")
+        messages.success(request, f"Venta registrada correctamente: {producto['nombre']} x{cantidad}.")
     else:
         messages.error(request, f"Error al registrar venta: {resultado}")
 
@@ -167,7 +168,7 @@ def resumen_pos(request):
 
     resumen = (
         DetalleVenta.objects.filter(venta__fecha__date__range=[inicio, fin])
-        .values("vino__nombre")
+        .values("producto__nombre")
         .annotate(
             cantidad_vendida=Sum("cantidad"),
             total_vendido=Sum(
@@ -179,6 +180,7 @@ def resumen_pos(request):
         )
         .order_by("-cantidad_vendida")
     )
+
     total_periodo = sum([r["total_vendido"] for r in resumen]) if resumen else 0
 
     return render(
@@ -194,20 +196,24 @@ def buscar_codigo(request):
         token = request.session.get("api_token")
         api = POSAPIClient(token=token)
 
-        # búsqueda directa en API
-        response = api.session.get(f"{api.base_url}/vinos/?search={codigo}")
-        data = response.json()
-        vinos = data.get("results", data)
+        response = api.session.get(f"{api.base_url}/productos/?search={codigo}")
+        try:
+            data = response.json()
+        except Exception:
+            messages.error(request, "Error al comunicarse con la API.")
+            return redirect("pos:panel_pos")
 
-        # cargar carrito existente para mostrarlo también
+        productos = data.get("results") or []
+        if not productos:
+            messages.warning(request, f"No se encontró ningún producto con código '{codigo}'.")
+            return redirect("pos:panel_pos")
+
         carrito = CarritoPOS(request)
-
         contexto = {
-            "vinos": vinos,
+            "productos": productos,
             "carrito": carrito.items(),
-            "total": carrito.total()
+            "total": carrito.total(),
         }
         return render(request, "pos/panel.html", contexto)
 
     return redirect("pos:panel_pos")
-

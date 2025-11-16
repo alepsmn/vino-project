@@ -1,87 +1,110 @@
 import os
 import django
-import csv
-from decimal import Decimal
+import pandas as pd
 
-# Configurar entorno Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vino_project.settings')
 django.setup()
 
+from apps.inventario.models import Productor, Vino, Destilado, Producto, Stock
 from apps.core.models import Almacen
-from apps.inventario.models import Productor, Vino, Stock
 
-# Ruta del CSV
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
-os.makedirs(DATA_DIR, exist_ok=True)
-RUTA_CSV = os.path.join(DATA_DIR, "inventario.csv")
+# --- LIMPIEZA PREVIA ---
+print("Eliminando datos antiguos...")
+Stock.objects.all().delete()
+Vino.objects.all().delete()
+Destilado.objects.all().delete()
+Producto.objects.all().delete()
+Productor.objects.all().delete()
+Almacen.objects.all().delete()
+print("Base limpia. Cargando nuevos datos...")
 
-def limpiar_numero(valor):
-    if not valor:
-        return Decimal('0.00')
-    v = valor.replace("€", "").replace(",", ".").replace("%", "").strip()
+# --- FUNCIONES AUXILIARES ---
+def limpiar_valor(valor):
+    if isinstance(valor, str):
+        valor = valor.replace('€', '').replace('%', '').replace(',', '.').strip()
     try:
-        return Decimal(v)
-    except Exception:
-        return Decimal('0.00')
+        return float(valor)
+    except (ValueError, TypeError):
+        return None
 
-def importar():
-    print("=== Importando inventario desde CSV ===")
 
-    # Comprobar existencia del archivo
-    if not os.path.exists(RUTA_CSV):
-        print(f"ERROR: No se encontró el archivo CSV en {RUTA_CSV}")
-        print("Coloca el archivo 'inventario.csv' en la carpeta 'data' del proyecto.")
-        return
+def cargar_catalogo_csv(ruta, tipo):
+    df = pd.read_csv(ruta)
+    print(f"\n>>> Procesando {ruta}")
 
-    # Crear o recuperar almacén central
-    almacen, _ = Almacen.objects.get_or_create(nombre="Central", defaults={"ubicacion": "Madrid"})
+    # --- Limpieza de filas vacías ---
+    df = df.dropna(how='all')
+    df['Nombre'] = df['Nombre'].astype(str).str.strip()
+    df['PRECIO COMPRA'] = df['PRECIO COMPRA'].astype(str).str.strip()
+    df = df[(df['Nombre'] != '') & (df['PRECIO COMPRA'] != '')]
 
-    with open(RUTA_CSV, newline='', encoding='utf-8') as f:
-        lector = csv.DictReader(f)
-        for i, row in enumerate(lector, 1):
-            nombre = row.get("Nombre") or row.get("NOMBRE") or row.get("Vino") or ""
-            tipo = row.get("Tipo") or row.get("TIPO") or "tinto"
-            productor_nombre = row.get("Productor") or "Desconocido"
-            pais = row.get("Pais") or "España"
-            region = row.get("DO") or ""
-            uvas = row.get("Uvas") or ""
-            precio_compra = limpiar_numero(row.get("PRECIO COMPRA"))
-            margen = limpiar_numero(row.get("PORCENTAJE"))
-            precio_venta = limpiar_numero(row.get("PREU"))
+    print(f"Filas válidas detectadas: {len(df)}")
 
-            if not nombre:
-                continue
+    for _, fila in df.iterrows():
+        nombre = fila['Nombre']
+        raw_precio = str(fila['PRECIO COMPRA']).replace('€', '').replace(',', '.').strip()
 
-            productor, _ = Productor.objects.get_or_create(
-                nombre=productor_nombre.strip() or "Desconocido",
-                defaults={"pais": pais.strip(), "region": region.strip()}
+        try:
+            precio_compra_valido = float(raw_precio)
+        except ValueError:
+            print(f"Fila '{nombre}' ignorada: precio no numérico ({raw_precio})")
+            continue
+
+        if not nombre or precio_compra_valido <= 0:
+            print(f"Fila ignorada: nombre vacío o precio inválido → {fila.to_dict()}")
+            continue
+
+        margen_valido = limpiar_valor(fila.get('PORCENTAJE')) or 1.20
+        productor_nombre = str(fila.get('Productor')).strip() if pd.notna(fila.get('Productor')) else "Desconocido"
+        pais = str(fila.get('País')).strip() if 'País' in df.columns and pd.notna(fila.get('País')) else 'España'
+        do = str(fila.get('DO')).strip() if 'DO' in df.columns and pd.notna(fila.get('DO')) else None
+        uvas = str(fila.get('Uvas')).strip() if 'Uvas' in df.columns and pd.notna(fila.get('Uvas')) else None
+
+        productor, _ = Productor.objects.get_or_create(nombre=productor_nombre, defaults={'pais': pais})
+
+        if tipo == 'vino':
+            subtipo = str(fila.get('Tipo')).lower().strip() if pd.notna(fila.get('Tipo')) else 'tinto'
+            Vino.objects.create(
+                nombre=nombre,
+                tipo='vino',
+                subtipo=subtipo,
+                productor=productor,
+                denominacion_origen=do,
+                uvas=uvas,
+                precio_compra=precio_compra_valido,
+                margen=margen_valido,
             )
 
-            vino, _ = Vino.objects.get_or_create(
-                nombre=nombre.strip(),
-                defaults={
-                    "tipo": tipo.strip().lower(),
-                    "productor": productor,
-                    "denominacion_origen": region.strip(),
-                    "uvas": uvas.strip(),
-                    "precio_compra": precio_compra,
-                    "margen": margen,
-                    "precio_venta": precio_venta,
-                    "activo": True
-                }
+        elif tipo == 'destilado':
+            subtipo = str(fila.get('Tipo')).lower().strip() if pd.notna(fila.get('Tipo')) else 'whisky'
+            volumen = limpiar_valor(fila.get('Volumen')) or 70
+            grado = limpiar_valor(fila.get('Grado')) or 40.0
+            Destilado.objects.create(
+                nombre=nombre,
+                tipo='destilado',
+                subtipo=subtipo,
+                productor=productor,
+                volumen_cl=volumen,
+                grado_alcohol=grado,
+                precio_compra=precio_compra_valido,
+                margen=margen_valido,
             )
 
-            Stock.objects.get_or_create(
-                vino=vino,
-                almacen=almacen,
-                defaults={"cantidad": 20}
-            )
 
-            if i % 10 == 0:
-                print(f"→ {i} registros procesados...")
+# --- CARGAS ---
+cargar_catalogo_csv("data/Catalogo_Herencia_Altes_Sentits.csv", "vino")
+cargar_catalogo_csv("data/Catalogo_The_Macallan_Sentits.csv", "destilado")
+cargar_catalogo_csv("data/Listado_Carla_OCULT.xlsx - Sheet1.csv", "vino")
 
-    print("=== Importación completada correctamente ===")
+# --- STOCK ---
+almacen, _ = Almacen.objects.get_or_create(nombre="Central", defaults={'ubicacion': 'Madrid'})
+for producto in Producto.objects.all():
+    Stock.objects.get_or_create(producto=producto, almacen=almacen, defaults={'cantidad': 15})
 
-if __name__ == "__main__":
-    importar()
+print("Stock generado correctamente.")
+
+# --- CALCULAR PRECIOS ---
+for p in Producto.objects.all():
+    p.calcular_precio_venta(save=True)
+print("Precios de venta recalculados y guardados.")
+print(f"Productos totales: {Producto.objects.count()} / Stock: {Stock.objects.count()}")

@@ -17,14 +17,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/", include('apps.api.urls')),
-    path("", include("apps.inventario.urls")),
-    path("ventas/", include('apps.ventas.urls')),
-    path("usuarios/", include('apps.usuarios.urls')),
-    path("pos/", include('apps.pos.urls')),
-    path("accounts/", include('django.contrib.auth.urls')),
+    path("api/v1/", include("apps.api.urls")),
+    path("", include("apps.core.urls")),           # aquí va core completo
+    path("inventario/", include("apps.inventario.urls")),
+    path("ventas/", include("apps.ventas.urls")),
+    path("usuarios/", include("apps.usuarios.urls")),
+    path("pos/", include("apps.pos.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]

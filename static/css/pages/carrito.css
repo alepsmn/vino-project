@@ -1,31 +1,8 @@
-.resumen-carrito {
-    margin-top: 40px;
-    text-align: right;
+.resumen-carrito, .checkout-resumen {
+  margin-top: 40px;
+  text-align: right;
 }
-
-.resumen-carrito p {
-    font-size: 1.2rem;
-    color: var(--blanco);
-}
-
-.resumen-carrito span {
-    color: var(--granate);
-    font-weight: bold;
-}
-
-.acciones-carrito {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-}
-
-.checkout-resumen {
-    margin-top: 40px;
-    text-align: right;
-}
-
-.checkout-resumen .total span {
-    color: var(--granate);
-    font-weight: bold;
+.resumen-carrito span, .checkout-resumen .total span {
+  color: var(--dorado);
+  font-weight: bold;
 }

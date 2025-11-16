@@ -24,19 +24,19 @@ class POSAPIClient:
         return None
 
 
-    def get_vinos(self):
-        url = f"{self.base_url}/vinos/"
-        response = self.session.get(url)
-        return response.json() if response.status_code == 200 else []
-
-    def registrar_venta(self, detalles):
+    def registrar_venta(self, detalles, metodo_pago="POS", descuento=0):
         """
         detalles = [
-            {"vino": 1, "cantidad": 2, "precio_unitario": 12.50, "subtotal": 25.00},
+            {"producto": 1, "cantidad": 2},
             ...
         ]
         """
         url = f"{self.base_url}/ventas/"
-        data = {"detalles": detalles, "total": sum(d["subtotal"] for d in detalles), "pagado": True}
+        data = {
+            "detalles": detalles,
+            "metodo_pago": metodo_pago,
+            "descuento": float(descuento),
+        }
         response = self.session.post(url, json=data)
         return response.json() if response.status_code in (200, 201) else response.text
+

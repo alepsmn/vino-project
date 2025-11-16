@@ -11,19 +11,25 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from decimal import Decimal
+import environ, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-+um8ncutj)!r6-zx^7!v$ruw5^dhs=p-l@7+u$4!%_r5*2g#*l"
+#SECRET_KEY = "django-insecure-+um8ncutj)!r6-zx^7!v$ruw5^dhs=p-l@7+u$4!%_r5*2g#*l"
+SECRET_KEY = env("SECRET_KEY", default="insecure-dev-key")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+POS_API_BASE_URL = env("POS_API_BASE_URL", default="http://127.0.0.1:8000")
 
 ALLOWED_HOSTS = []
 
@@ -33,22 +39,25 @@ STRIPE_SECRET_KEY = "sk_test_51RsJAORoVGblbPGBBXP2RlV5TtK64hVAMVKHjEflJsDj7KbIj8
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "rest_framework",
-    "rest_framework.authtoken",
-    "corsheaders",
+    # Django core
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-    "apps.inventario",
-    "apps.ventas",
-    "apps.usuarios",
-    "apps.api",
-    "apps.pos",
-    "apps.core",
+    # Terceros
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    # Tus apps
+    'apps.core',
+    'apps.inventario',
+    'apps.ventas',
+    'apps.pos',
+    'apps.usuarios',
+    'apps.api',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +107,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 25,
 }
 
 WSGI_APPLICATION = "vino_project.wsgi.application"
