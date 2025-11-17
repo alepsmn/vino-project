@@ -10,22 +10,22 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-    <body class="{% block body_class %}{% endblock %}">
-        {% include "includes/navbar.html" %}
+<body class="{% block body_class %}{% endblock %}">
+    {% include "includes/navbar.html" %}
 
-        {% block page_subnav %}{% endblock %}
+    {% block page_subnav %}{% endblock %}
 
-        {# SIEMPRE debajo de navbar y de la subnav (si existe) #}
-        {% include "includes/search_subnav.html" %}
+    {# SIEMPRE debajo de navbar y de la subnav (si existe) #}
+    {% include "includes/search_subnav.html" %}
 
-        <main class="main-container">
-            {% block content %}{% endblock %}
-        </main>
+    <main class="main-container">
+        {% block content %}{% endblock %}
+    </main>
 
-        {% include "includes/footer.html" %}
+    {% include "includes/footer.html" %}
 
-        <script type="module" src="{% static 'js/navbar.js' %}"></script>
-        {% block extra_js %}{% endblock %}
-        <script type="module" src="{% static 'js/main.js' %}" defer></script>
-    </body>
+    <script type="module" src="{% static 'js/navbar.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+    <script type="module" src="{% static 'js/main.js' %}" defer></script>
+</body>
 </html>

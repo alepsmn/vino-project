@@ -14,3 +14,9 @@ body {
 section {
     margin-bottom: 60px;
 }
+
+/* cuando hay overlay / panel abierto, se bloquea el scroll */
+body.bloqueado {
+    overflow: hidden;
+    width: 100%;
+}

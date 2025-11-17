@@ -1,12 +1,18 @@
 .subnav-catalogo {
     position: sticky;
     top: var(--navbar-altura);
-    z-index: 900;
+    z-index: 1600;
     height: var(--subnav-altura);
     background: #050505;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
+    transition: top 180ms ease-out;
+}
+
+/* cuando la navbar está oculta, el subnav ocupa su sitio */
+body.nav-hidden .subnav-catalogo {
+    top: 0;
 }
 
 .subnav-catalogo > .subnav-izq,

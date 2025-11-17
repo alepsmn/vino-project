@@ -1,17 +1,18 @@
+/* ============================================
+   SEARCH SUBNAV (barra de búsqueda)
+   ============================================ */
+
 .search-subnav {
     position: sticky;
     top: var(--navbar-altura);
-    z-index: 850;
     background: var(--color-superficie);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    overflow: hidden;
     max-height: 0;
     opacity: 0;
     pointer-events: none;
-    transition: max-height 160ms ease-out, opacity 140ms ease-out;
+    z-index: 3500; /* encima del overlay, debajo del menú */
+    transition: max-height .16s, opacity .16s;
 }
 
-/* si la página tiene subnav (catálogo) la barra baja un nivel más */
 body.tiene-subnav .search-subnav {
     top: calc(var(--navbar-altura) + var(--subnav-altura));
 }
@@ -27,7 +28,6 @@ body.tiene-subnav .search-subnav {
     margin: 0 auto;
     padding: 10px 16px 14px;
     display: flex;
-    align-items: flex-end;
 }
 
 .search-form-elegante input[type="text"] {

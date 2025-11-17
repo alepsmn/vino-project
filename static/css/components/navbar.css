@@ -1,8 +1,11 @@
-/* === NAVBAR PRINCIPAL === */
+/* ============================================
+   NAVBAR PRINCIPAL
+   ============================================ */
+
 .navbar {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1500;
     height: var(--navbar-altura);
     background: rgba(0,0,0,0.90);
     border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -13,7 +16,7 @@
 
 /* CONTENEDOR INTERNO */
 .nav-container {
-    position: relative; /* <<< NECESARIO para centrar el logo sin tapar */
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,7 +26,10 @@
     padding: 0 16px;
 }
 
-/* === HAMBURGUESA === */
+/* ============================================
+   HAMBURGUESA
+   ============================================ */
+
 .menu-toggle {
     border: none;
     background: transparent;
@@ -32,24 +38,26 @@
     gap: 4px;
     padding: 4px;
     cursor: pointer;
-    z-index: 10; /* por encima del logo */
+    z-index: 10;
 }
 
 .menu-toggle span {
-    display: block;
     width: 22px;
     height: 2px;
     background: var(--color-blanco);
     border-radius: 999px;
 }
 
-/* === LOGO CENTRADO === */
+/* ============================================
+   LOGO CENTRADO
+   ============================================ */
+
 .logo-wrapper {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 0; /* detrás de iconos */
+    z-index: 0;
     text-decoration: none;
 }
 
@@ -65,13 +73,19 @@
     color: var(--color-oro);
 }
 
-/* === ICONOS DERECHA === */
+/* ============================================
+   ICONOS DERECHA
+   ============================================ */
+
 .nav-derecha {
     display: flex;
     align-items: center;
     gap: 12px;
-    position: relative;
-    z-index: 10; /* sobre el logo */
+    z-index: 10;
+}
+
+.nav-derecha svg path {
+    fill: #ffffff !important;
 }
 
 .btn-search,
@@ -86,39 +100,34 @@
     cursor: pointer;
 }
 
-/* Iconos blancos siempre */
-.nav-derecha svg path {
-    fill: #ffffff !important;
-}
-
-/* Hover */
 .btn-search:hover,
 .icono-perfil:hover {
     background: rgba(255,255,255,0.06);
     transform: translateY(-1px);
 }
 
-/* === MENÚ LATERAL === */
+/* ============================================
+   MENÚ LATERAL
+   ============================================ */
 .menu-lateral {
     position: fixed;
-    top: 0;
+    top: var(--navbar-altura);
     left: 0;
-    width: 260px;
-    max-width: 80vw;
-    height: 100vh;
+
+    width: 290px;
+    height: calc(100vh - var(--navbar-altura));
+
     background: var(--color-superficie-alt);
-    box-shadow: var(--shadow-suave);
     transform: translateX(-100%);
-    transition: transform 200ms ease-out;
-    z-index: 1200;
-    padding: 16px 12px;
-    display: flex;
-    flex-direction: column;
+    transition: transform .2s ease;
+
+    z-index: 3000;  /* Siempre por encima */
 }
 
 .menu-lateral.abierto {
     transform: translateX(0);
 }
+
 
 .cerrar-menu {
     border: none;
@@ -141,7 +150,6 @@
     border-radius: 6px;
     color: var(--color-texto-suave);
     text-decoration: none;
-    font-size: 0.95rem;
 }
 
 .menu-arbol a:hover {
@@ -149,18 +157,44 @@
     color: var(--color-blanco);
 }
 
-/* OVERLAY */
-.overlay {
+/* ============================================
+   OVERLAY GLOBAL (MENÚ + SEARCH)
+   ============================================ */
+#overlayGlobal {
     position: fixed;
-    inset: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    top: var(--navbar-altura);
     background: rgba(0,0,0,0.55);
+
     opacity: 0;
     pointer-events: none;
-    transition: opacity 160ms ease;
-    z-index: 1100;
+    transition: opacity .18s ease;
+
+    z-index: 2500; /* justo debajo de search-subnav pero encima del contenido */
 }
 
-.overlay.visible {
+body.tiene-subnav #overlayGlobal {
+    top: calc(var(--navbar-altura) + var(--subnav-altura));
+}
+
+#overlayGlobal.visible {
     opacity: 1;
     pointer-events: auto;
+}
+
+/* catálogo: overlay empieza más abajo */
+body.tiene-subnav #overlay {
+    top: calc(var(--navbar-altura) + var(--subnav-altura));
+}
+
+/* ============================================
+   SCROLL CONTROL (JS)
+   ============================================ */
+
+body.nav-hidden .navbar {
+    transform: translateY(-100%);
+    transition: transform 180ms ease-out;
 }

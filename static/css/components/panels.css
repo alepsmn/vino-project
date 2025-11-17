@@ -1,67 +1,68 @@
-/* Catálogo: paneles laterales */
+/* ============================================
+   PANEL LATERAL (CATEGORÍAS / FILTROS)
+   ============================================ */
+
 .panel-lateral {
     position: fixed;
-    top: var(--navbar-altura);  /* clave */
+    left: 0;
     bottom: 0;
+
     width: 280px;
     max-width: 85vw;
+
     background: var(--color-superficie-alt);
-    box-shadow: var(--shadow-suave);
     padding: 16px;
     overflow-y: auto;
 
-    /* Ocultos de inicio */
     transform: translateX(-100%);
-    transition: transform 200ms ease-out;
-    z-index: 1300;
+    transition: transform .2s ease;
+
+    z-index: 3000;
+    top: var(--navbar-altura);
 }
+
 body.tiene-subnav .panel-lateral {
     top: calc(var(--navbar-altura) + var(--subnav-altura));
 }
 
+.panel-lateral.izquierdo { left: 0; }
+.panel-lateral.izquierdo.abierto { transform: translateX(0); }
 
-.panel-lateral[hidden] {
-    display: none;
-}
+.panel-lateral.derecho { right: 0; left: auto; transform: translateX(100%); }
+.panel-lateral.derecho.abierto { transform: translateX(0); }
 
-.panel-lateral.izquierdo {
-    left: 0;
-    transform: translateX(-100%);
-}
+/* ============================================
+   OVERLAY DEL CATÁLOGO
+   ============================================ */
 
-.panel-lateral.izquierdo.abierto {
-    transform: translateX(0);
-}
-
-.panel-lateral.derecho {
-    right: 0;
-    transform: translateX(100%);
-}
-
-.panel-lateral.derecho.abierto {
-    transform: translateX(0);
-}
-
-/* Overlay catálogo reutiliza el mismo patrón */
-.overlay-catalogo {
+/* overlay del catálogo siempre bajo el subnav real */
+#overlayCatalogo {
     position: fixed;
-    top: var(--navbar-altura);        /* no cubre navbar */
     left: 0;
     right: 0;
     bottom: 0;
-
+    top: var(--navbar-altura);
     background: rgba(0,0,0,0.55);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 160ms ease;
+    transition: opacity .18s ease;
     z-index: 1200;
 }
 
-body.tiene-subnav .overlay-catalogo {
-    top: calc(var(--navbar-altura) + var(--subnav-altura));
+/* desplazar según lo que realmente esté presente */
+body.tiene-subnav #overlayCatalogo {
+    top: var(--subnav-altura);      
 }
 
-.overlay-catalogo.visible {
+body.nav-hidden #overlayCatalogo {
+    top: 0;
+}
+
+body.tiene-subnav.nav-hidden #overlayCatalogo {
+    top: 0;
+}
+
+#overlayCatalogo.visible {
     opacity: 1;
     pointer-events: auto;
 }
