@@ -9,16 +9,20 @@
 {% endblock %}
 
 {% block content %}
+<h2>DEBUG CATALOGO</h2>
+
 <section class="catalogo">
     <h1>Catálogo</h1>
+
     <div id="gridCatalogo" class="grid-vinos grid-2cols">
         {% for p in productos %}
-        <article class="vino-card">
+        <a href="{% url 'inventario:detalle_producto' p.id %}" class="vino-card enlace-card">
+            <img src="{{ p.imagen_url }}" class="vino-img">
+
             <h3>{{ p.nombre }}</h3>
             <p>{{ p.productor.nombre }}</p>
             <p class="precio">{{ p.precio_venta }} €</p>
-            <a class="btn-principal" href="{% url 'inventario:detalle_producto' p.id %}">Ver detalle</a>
-        </article>
+        </a>
         {% empty %}
         <p class="sin-resultados">No se encontraron productos.</p>
         {% endfor %}
@@ -57,5 +61,5 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script type="module" src="{% static 'js/catalogo.js' %}"></script>
+  <script type="module" src="{% static 'build/assets/main.js' %}" defer></script>
 {% endblock %}

@@ -30,6 +30,8 @@ class Producto(models.Model):
     precio_venta = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     activo = models.BooleanField(default=True)
     codigo_barras = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    imagen = models.ImageField(upload_to="productos/", null=True, blank=True)
+    imagen_nombre = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         ordering = ['nombre']
@@ -43,6 +45,17 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+    @property
+    def imagen_url(self):
+        # prioridad al archivo manual en static
+        if self.imagen_nombre:
+            return f"/static/img/vinos/{self.imagen_nombre}"
+
+        # en desarrollo ignoramos ImageField
+        return "/static/img/noimg.jpg"
+
+
     
 class Vino(Producto):
     SUBTIPO_CHOICES = [

@@ -1,0 +1,17 @@
+.confirmacion-container {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+.mensaje-confirmacion {
+  background: var(--negro-suave);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 30px;
+  margin: 40px 0;
+}
+.pedido-id {
+  color: var(--dorado);
+  font-size: 1.1rem;
+}

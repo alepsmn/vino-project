@@ -1,0 +1,19 @@
+h1, h2, h3, h4 {
+  font-family: var(--fuente-titulos);
+  color: var(--blanco);
+  font-weight: 600;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+a {
+  color: var(--blanco);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--dorado);
+}

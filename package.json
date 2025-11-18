@@ -1,0 +1,34 @@
+{
+  "name": "vino_project",
+  "version": "1.0.0",
+  "description": "Sistema Django con API REST y punto de venta sincronizado.\r - Backend: Django + DRF + PostgreSQL\r - Apps: inventario, ventas, api, usuarios, core, pos\r - Autenticación: Token DRF (empleados)\r - Sincronización de stock automática",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alepsmn/vino-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alepsmn/vino-project/issues"
+  },
+  "homepage": "https://github.com/alepsmn/vino-project#readme",
+  "devDependencies": {
+    "vite": "^7.2.2"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.12",
+    "fdir": "^6.5.0",
+    "nanoid": "^3.3.11",
+    "picocolors": "^1.1.1",
+    "picomatch": "^4.0.3",
+    "postcss": "^8.5.6",
+    "rollup": "^4.53.2",
+    "source-map-js": "^1.2.1",
+    "tinyglobby": "^0.2.15"
+  }
+}

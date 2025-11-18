@@ -1,0 +1,200 @@
+/* ============================================
+   NAVBAR PRINCIPAL
+   ============================================ */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1500;
+    height: var(--navbar-altura);
+    background: rgba(0,0,0,0.90);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+}
+
+/* CONTENEDOR INTERNO */
+.nav-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ============================================
+   HAMBURGUESA
+   ============================================ */
+
+.menu-toggle {
+    border: none;
+    background: transparent;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.menu-toggle span {
+    width: 22px;
+    height: 2px;
+    background: var(--color-blanco);
+    border-radius: 999px;
+}
+
+/* ============================================
+   LOGO CENTRADO
+   ============================================ */
+
+.logo-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    text-decoration: none;
+}
+
+.logo-centro {
+    color: var(--color-blanco);
+    font-family: "Playfair Display", serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.logo-centro span {
+    color: var(--color-oro);
+}
+
+/* ============================================
+   ICONOS DERECHA
+   ============================================ */
+
+.nav-derecha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+}
+
+.nav-derecha svg path {
+    fill: #ffffff !important;
+}
+
+.btn-search,
+.icono-perfil {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-search:hover,
+.icono-perfil:hover {
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-1px);
+}
+
+/* ============================================
+   MENÚ LATERAL
+   ============================================ */
+.menu-lateral {
+    position: fixed;
+    top: var(--navbar-altura);
+    left: 0;
+
+    width: 290px;
+    height: calc(100vh - var(--navbar-altura));
+
+    background: var(--color-superficie-alt);
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+
+    z-index: 3000;  /* Siempre por encima */
+}
+
+.menu-lateral.abierto {
+    transform: translateX(0);
+}
+
+
+.cerrar-menu {
+    border: none;
+    background: none;
+    color: var(--color-blanco);
+    font-size: 1.4rem;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.menu-arbol {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+}
+
+.menu-arbol a {
+    display: block;
+    padding: 8px 6px;
+    border-radius: 6px;
+    color: var(--color-texto-suave);
+    text-decoration: none;
+}
+
+.menu-arbol a:hover {
+    background: rgba(255,255,255,0.06);
+    color: var(--color-blanco);
+}
+
+/* ============================================
+   OVERLAY GLOBAL (MENÚ + SEARCH)
+   ============================================ */
+#overlayGlobal {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    top: var(--navbar-altura);
+    background: rgba(0,0,0,0.55);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease;
+
+    z-index: 2500; /* justo debajo de search-subnav pero encima del contenido */
+}
+
+body.tiene-subnav #overlayGlobal {
+    top: calc(var(--navbar-altura) + var(--subnav-altura));
+}
+
+#overlayGlobal.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* catálogo: overlay empieza más abajo */
+body.tiene-subnav #overlay {
+    top: calc(var(--navbar-altura) + var(--subnav-altura));
+}
+
+/* ============================================
+   SCROLL CONTROL (JS)
+   ============================================ */
+
+body.nav-hidden .navbar {
+    transform: translateY(-100%);
+    transition: transform 180ms ease-out;
+}

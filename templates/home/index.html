@@ -1,38 +1,93 @@
-{% extends 'base.html' %}
-{% block title %}Mi Bodega — Inicio{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}SentitsPS — Inicio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'build/assets/style.css' %}">
+{% endblock %}
 
 {% block content %}
-<section class="hero">
-  <div class="hero-content">
-    <h1>Bienvenido a Mi Bodega</h1>
-    <p>Vinos seleccionados, destilados exclusivos y pasión por el detalle.</p>
-    <a href="{% url 'inventario:catalogo' %}" class="btn-principal">Ver catálogo completo</a>
-  </div>
+
+<!-- ===================== -->
+<!-- BLOQUE 1: MATRIZ 5x2  -->
+<!-- ===================== -->
+
+<section class="bloque-matriz">
+    <div class="matriz">
+
+        <!-- 3x2 IZQUIERDA → carrusel automático -->
+        <div class="matriz-izq">
+            <div class="carrusel-matriz" id="carruselMatriz">
+                {% for p in productos_destacados %}
+                <div class="slide">
+                    <img src="{{ p.imagen_url }}" alt="{{ p.nombre }}">
+                    <div class="slide-info">
+                        <h3>{{ p.nombre }}</h3>
+                        <p>{{ p.productor.nombre }}</p>
+                        <span>{{ p.precio_venta }} €</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 2x2 DERECHA → estáticos dinámicos -->
+        <div class="matriz-der">
+            <div class="box recomendados">
+                <h3>Recomendados</h3>
+                <p>Selección automática según ventas.</p>
+                <a href="{% url 'inventario:catalogo' %}">Ver más</a>
+            </div>
+
+            <div class="box ultimas">
+                <h3>Últimas botellas</h3>
+                <p>Unidades muy limitadas.</p>
+                <a href="{% url 'inventario:catalogo' %}">Descubrir</a>
+            </div>
+
+            <div class="box pdf">
+                <h3>Carta PDF</h3>
+                <p>Muy pronto disponible.</p>
+                <button disabled style="opacity:0.4">PDF</button>
+            </div>
+
+            <div class="box catalogo-btn">
+                <a href="{% url 'inventario:catalogo' %}" class="btn-grande">Catálogo completo</a>
+            </div>
+        </div>
+
+    </div>
 </section>
 
-<section class="destacados">
-  <h2>Ofertas destacadas</h2>
-  <div class="grid-vinos">
-    {% for p in productos_destacados %}
-      <div class="vino-card">
-        <h3>{{ p.nombre }}</h3>
-        <p>{{ p.productor.nombre }}</p>
-        <p><strong>{{ p.precio_venta }} €</strong></p>
-        <a href="{% url 'inventario:detalle_producto' p.id %}" class="btn-secundario">Ver</a>
-      </div>
-    {% endfor %}
-  </div>
-</section>
+
+<!-- ===================== -->
+<!-- BLOQUE 2: CARRUSELES -->
+<!-- ===================== -->
+
+{% include "includes/carrusel.html" with titulo="Más vendidos" productos=mas_vendidos %}
+{% include "includes/carrusel.html" with titulo="Novedades" productos=novedades %}
+{% include "includes/carrusel.html" with titulo="Recomendaciones" productos=recomendados %}
+
+
+<!-- ============================ -->
+<!-- BLOQUE 3: BODEGAS ASOCIADAS -->
+<!-- ============================ -->
 
 <section class="bodegas">
-  <h2>Bodegas con las que trabajamos</h2>
-  <div class="grid-bodegas">
-    {% for b in productores %}
-      <div class="bodega-card">
-        <h4>{{ b.nombre }}</h4>
-        <p>{{ b.pais }}</p>
-      </div>
-    {% endfor %}
-  </div>
+    <h2>Bodegas con las que trabajamos</h2>
+    <div class="grid-bodegas">
+        {% for b in productores %}
+        <div class="bodega-card">
+            <img src="{{ p.imagen_url }}" alt="{{ p.nombre }}">
+            <h4>{{ b.nombre }}</h4>
+            <p>{{ b.pais }}</p>
+        </div>
+        {% endfor %}
+    </div>
 </section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{% static 'build/assets/main.js' %}" defer></script>
 {% endblock %}

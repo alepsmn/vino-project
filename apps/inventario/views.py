@@ -34,8 +34,9 @@ def catalogo(request):
 
 def detalle_producto(request, id):
     producto = get_object_or_404(Producto.objects.select_related('productor'), pk=id)
-    return render(request, 'inventario/detalle_vino.html', {'producto': producto})
+    return render(request, 'inventario/detalle_producto.html', {'producto': producto})
 
+# hay q actualizar estos filtros
 def filtrar_tipo(request, tipo):
     productos = Producto.objects.filter(tipo=tipo)
     return render(request, 'inventario/lista_vinos.html', {'productos': productos, 'tipo': tipo})

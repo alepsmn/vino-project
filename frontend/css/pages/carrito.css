@@ -1,0 +1,8 @@
+.resumen-carrito, .checkout-resumen {
+  margin-top: 40px;
+  text-align: right;
+}
+.resumen-carrito span, .checkout-resumen .total span {
+  color: var(--dorado);
+  font-weight: bold;
+}

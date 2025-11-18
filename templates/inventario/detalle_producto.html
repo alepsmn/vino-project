@@ -6,12 +6,15 @@
     <div class="grid-vinos">
         {% for p in productos %}
             <div class="vino-card">
+                <img src="{{ p.imagen_url }}" class="vino-img">
+
                 <div class="vino-info">
                     <h3>{{ p.nombre }}</h3>
                     <p class="tipo">{{ p.tipo|title }}</p>
                     <p class="productor">{{ p.productor.nombre }}</p>
                     <p class="precio">{{ p.precio_venta }} €</p>
                 </div>
+
                 <div class="vino-actions">
                     {% if p.activo %}
                         <form method="post" action="{% url 'ventas:agregar_carrito' p.id %}">
