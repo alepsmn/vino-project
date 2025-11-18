@@ -9,19 +9,22 @@
 {% endblock %}
 
 {% block content %}
-<h2>DEBUG CATALOGO</h2>
 
 <section class="catalogo">
     <h1>Catálogo</h1>
 
     <div id="gridCatalogo" class="grid-vinos grid-2cols">
         {% for p in productos %}
-        <a href="{% url 'inventario:detalle_producto' p.id %}" class="vino-card enlace-card">
-            <img src="{{ p.imagen_url }}" class="vino-img">
+        <a href="{% url 'inventario:detalle_producto' p.id %}" class="vino-card">
+            <div class="vino-card-izq">
+                <img src="{{ p.imagen_url }}" class="vino-img">
+            </div>
 
-            <h3>{{ p.nombre }}</h3>
-            <p>{{ p.productor.nombre }}</p>
-            <p class="precio">{{ p.precio_venta }} €</p>
+            <div class="vino-card-der">
+                <h3 class="vino-nombre">{{ p.nombre }}</h3>
+                <p class="productor">{{ p.productor.nombre }}</p>
+                <p class="precio">{{ p.precio_venta }} €</p>
+            </div>
         </a>
         {% empty %}
         <p class="sin-resultados">No se encontraron productos.</p>
