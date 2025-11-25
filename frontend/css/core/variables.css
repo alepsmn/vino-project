@@ -1,24 +1,30 @@
 :root {
-    --color-negro: #000000;
-    --color-blanco: #ffffff;
-    --color-oro: #9A8352;
-    --color-salvia: #A6A68C;
+    /* PALETA CORPORATIVA */
+    --color-oro: #9A8352;          /* oro corporativo */
+    --color-marfil: #F6F1E7;       /* marfil suave */
+    --color-blanco: #FFFFFF;       /* blanco puro */
+    --color-grafito: #2B2B2B;      /* gris grafito elegante */
 
-    --color-bg: #050505;
-    --color-superficie: #111111;
-    --color-superficie-alt: #181818;
+    /* FONDOS PRINCIPALES */
+    --color-bg: var(--color-marfil);
+    --color-superficie: #FFFFFF;
+    --color-superficie-alt: #F0ECE3;
 
-    --color-texto: #ffffff;
-    --color-texto-suave: rgba(255,255,255,0.7);
+    /* TIPOGRAFÍA */
+    --color-texto: var(--color-grafito);
+    --color-texto-suave: rgba(0,0,0,0.55);
 
-    --color-borde-suave: rgba(255,255,255,0.12);
+    /* BORDES */
+    --color-borde-suave: rgba(0,0,0,0.12);
 
+    /* COMPONENTES */
     --navbar-altura: 64px;
     --subnav-altura: 52px;
 
+    /* RADIOS */
     --radius-md: 10px;
     --radius-lg: 16px;
 
-    --shadow-suave: 0 8px 20px rgba(0,0,0,0.35);
+    /* SOMBRAS */
+    --shadow-suave: 0 4px 12px rgba(0,0,0,0.12);
 }
-

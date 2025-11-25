@@ -1,17 +1,18 @@
-.pagina-catalogo .catalogo h1 {
-    margin-bottom: 16px;
-}
-
-#gridCatalogo.grid-2cols {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-#gridCatalogo.grid-4cols {
+/* GRID DEL CATÁLOGO */
+#gridCatalogo {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    justify-items: center;  /* centra cada carta en su celda */
+}
+
+/* responsive */
+@media (max-width: 1024px) {
+    #gridCatalogo {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
-    #gridCatalogo.grid-4cols {
+    #gridCatalogo {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }

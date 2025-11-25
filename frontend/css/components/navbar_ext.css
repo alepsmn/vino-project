@@ -3,8 +3,10 @@
     top: var(--navbar-altura);
     z-index: 1600;
     height: var(--subnav-altura);
-    background: #050505;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    background: var(--color-superficie);          /* antes #050505 */
+    border-bottom: 1px solid var(--color-borde-suave);
+
     display: flex;
     align-items: center;
     transition: top 180ms ease-out;

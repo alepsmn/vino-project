@@ -13,7 +13,7 @@
 <section class="catalogo">
     <h1>Catálogo</h1>
 
-    <div id="gridCatalogo" class="grid-vinos grid-2cols">
+    <div id="gridCatalogo" class="grid-vinos">
         {% for p in productos %}
         <a href="{% url 'inventario:detalle_producto' p.id %}" class="vino-card">
             <div class="vino-card-izq">
@@ -26,10 +26,9 @@
                 <p class="precio">{{ p.precio_venta }} €</p>
             </div>
         </a>
-        {% empty %}
-        <p class="sin-resultados">No se encontraron productos.</p>
         {% endfor %}
     </div>
+
 </section>
 
 <div id="overlayCatalogo" class="overlay-catalogo"></div>

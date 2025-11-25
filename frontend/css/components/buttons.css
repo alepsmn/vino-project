@@ -13,12 +13,22 @@
 
 .btn-principal {
     background: var(--color-oro);
-    color: var(--color-negro);
-    font-weight: 500;
+    color: var(--color-blanco);
+    border: 1px solid var(--color-oro);
+    font-weight: 600;
 }
+.btn-principal:hover {
+    filter: brightness(0.9);
+}
+
 
 .btn-secundario {
     background: transparent;
-    color: var(--color-blanco);
-    border-color: rgba(255,255,255,0.2);
+    color: var(--color-grafito);
+    border: 1px solid var(--color-borde-suave);
 }
+.btn-secundario:hover {
+    background: rgba(0,0,0,0.04);
+}
+
+
