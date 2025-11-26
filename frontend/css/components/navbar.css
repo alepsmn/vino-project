@@ -10,7 +10,7 @@
     height: var(--navbar-altura);
 
     background: var(--color-superficie); /* blanco */
-    border-bottom: 1px solid var(--color-borde-suave); /* gris suave */
+    border-bottom: 1px solid var(--color-borde-suave);
     backdrop-filter: blur(12px);
 
     display: flex;
@@ -48,8 +48,12 @@
 .menu-toggle span {
     width: 22px;
     height: 2px;
-    background: var(--color-blanco);
+    background: #9A8352; /* ORO */
     border-radius: 999px;
+}
+
+.menu-toggle:hover span {
+    filter: brightness(0.85);
 }
 
 /* ============================================
@@ -66,7 +70,7 @@
 }
 
 .logo-centro {
-    color: var(--color-blanco);
+    color: #000; /* negro sobre fondo blanco */
     font-family: "Playfair Display", serif;
     font-size: 1.2rem;
     letter-spacing: 0.08em;
@@ -74,7 +78,7 @@
 }
 
 .logo-centro span {
-    color: var(--color-oro);
+    color: #9A8352; /* oro */
 }
 
 /* ============================================
@@ -88,12 +92,21 @@
     z-index: 10;
 }
 
+/* ICONOS SVG (PERFIL, CARRITO, BUSQUEDA) */
 .nav-derecha svg path {
-    fill: #ffffff !important;
+    fill: #9A8352; /* ORO */
+    transition: 0.15s ease-in-out;
 }
 
+.nav-derecha a:hover svg path,
+.btn-search:hover svg path {
+    filter: brightness(0.85);
+}
+
+/* BOTÓN DE BÚSQUEDA, PERFIL, CARRITO */
 .btn-search,
-.icono-perfil {
+.icono-perfil,
+.icono-carrito {
     width: 32px;
     height: 32px;
     display: flex;
@@ -102,17 +115,20 @@
     background: none;
     border: none;
     cursor: pointer;
+    color: #9A8352;
 }
 
 .btn-search:hover,
-.icono-perfil:hover {
-    background: rgba(255,255,255,0.06);
+.icono-perfil:hover,
+.icono-carrito:hover {
+    background: rgba(154, 131, 82, 0.12); /* oro suave */
     transform: translateY(-1px);
 }
 
 /* ============================================
    MENÚ LATERAL
    ============================================ */
+
 .menu-lateral {
     position: fixed;
     top: var(--navbar-altura);
@@ -125,18 +141,17 @@
     transform: translateX(-100%);
     transition: transform .2s ease;
 
-    z-index: 3000;  /* Siempre por encima */
+    z-index: 3000;
 }
 
 .menu-lateral.abierto {
     transform: translateX(0);
 }
 
-
 .cerrar-menu {
     border: none;
     background: none;
-    color: var(--color-blanco);
+    color: #9A8352; /* oro */
     font-size: 1.4rem;
     align-self: flex-end;
     cursor: pointer;
@@ -157,13 +172,14 @@
 }
 
 .menu-arbol a:hover {
-    background: rgba(255,255,255,0.06);
-    color: var(--color-blanco);
+    background: rgba(154,131,82,0.12);
+    color: #000;
 }
 
 /* ============================================
-   OVERLAY GLOBAL (MENÚ + SEARCH)
+   OVERLAY GLOBAL
    ============================================ */
+
 #overlayGlobal {
     position: fixed;
     left: 0;
@@ -177,7 +193,7 @@
     pointer-events: none;
     transition: opacity .18s ease;
 
-    z-index: 2500; /* justo debajo de search-subnav pero encima del contenido */
+    z-index: 2500;
 }
 
 body.tiene-subnav #overlayGlobal {
@@ -189,13 +205,8 @@ body.tiene-subnav #overlayGlobal {
     pointer-events: auto;
 }
 
-/* catálogo: overlay empieza más abajo */
-body.tiene-subnav #overlay {
-    top: calc(var(--navbar-altura) + var(--subnav-altura));
-}
-
 /* ============================================
-   SCROLL CONTROL (JS)
+   SCROLL CONTROL
    ============================================ */
 
 body.nav-hidden .navbar {

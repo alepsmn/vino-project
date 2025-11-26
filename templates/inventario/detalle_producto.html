@@ -28,7 +28,7 @@
             <form method="post" action="{% url 'ventas:agregar_carrito' producto.id %}">
                 {% csrf_token %}
                 <input type="hidden" name="cantidad" value="1">
-                <button class="btn-principal">Añadir al carrito</button>
+                <button type="submit" class="btn-principal">Añadir al carrito</button>
             </form>
             {% else %}
             <p class="agotado">Producto agotado</p>

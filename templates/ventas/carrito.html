@@ -18,17 +18,45 @@
             </thead>
             <tbody>
                 {% for item in cart %}
-                    <tr>
-                        <td>{{ item.producto.nombre }}</td>
-                        <td>{{ item.cantidad }}</td>
-                        <td>{{ item.precio }} €</td>
-                        <td>{{ item.subtotal }} €</td>
-                        <td>
-                            <a href="{% url 'ventas:eliminar_carrito' item.producto.id %}" class="btn-eliminar">✕</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ item.vino.nombre }}</td>
+
+                    <td class="cantidad-col">
+                        <div class="qty-wrapper">
+
+                            {% if item.cantidad == 1 %}
+                                <a href="{% url 'ventas:restar_carrito' item.vino.id %}"
+                                class="qty-btn minus critico">
+                                    ✕
+                                </a>
+                            {% else %}
+                                <a href="{% url 'ventas:restar_carrito' item.vino.id %}"
+                                class="qty-btn minus">
+                                    −
+                                </a>
+                            {% endif %}
+
+                            <span class="qty-num">{{ item.cantidad }}</span>
+
+                            <a href="{% url 'ventas:agregar_carrito' item.vino.id %}"
+                            class="qty-btn plus">
+                                +
+                            </a>
+                        </div>
+                    </td>
+
+                    <td>{{ item.precio }} €</td>
+                    <td>{{ item.subtotal }} €</td>
+
+                    <td>
+                        <a href="{% url 'ventas:eliminar_carrito' item.vino.id %}" class="btn-eliminar">
+                            ✕
+                        </a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
+
         </table>
 
         <div class="resumen-carrito">

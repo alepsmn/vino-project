@@ -1,30 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}Iniciar Sesión{% endblock %}
+
 {% block content %}
 <section class="auth">
+
   <div class="auth-container">
+
     <h1>Inicia sesión</h1>
-    <form method="post">
+
+    <form method="post" class="form-login">
       {% csrf_token %}
-      <label>Usuario</label>
-      <input type="text" name="username" required>
-      <label>Contraseña</label>
-      <input type="password" name="password" required>
+
+      <div class="form-group">
+        <label for="id_username">Usuario</label>
+        <input type="text" name="username" id="id_username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="id_password">Contraseña</label>
+        <input type="password" name="password" id="id_password" required>
+      </div>
+
       <button type="submit" class="btn-principal">Entrar</button>
     </form>
 
     <p class="link-secundario">
-      ¿No tienes cuenta?
+      ¿No tienes cuenta?  
       <a href="{% url 'usuarios:registro' %}">Regístrate</a>
     </p>
 
-    {% if messages %}
-      <ul class="mensajes">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
   </div>
+
 </section>
 {% endblock %}

@@ -25,7 +25,11 @@ def agregar_carrito(request, producto_id):
     cart.add(producto_id, cantidad)
     messages.success(request, f"Se añadieron {cantidad} unidad(es) al carrito.")
     # Redirige a la página anterior en lugar del carrito
-    return redirect(request.META.get('HTTP_REFERER', 'inventario:lista_vinos'))
+    referer = request.META.get('HTTP_REFERER')
+    try:
+        return redirect(referer) if referer else redirect('inventario:catalogo')
+    except:
+        return redirect('inventario:catalogo')
 
 def restar_carrito(request, producto_id):
     cart = Cart(request)
