@@ -1,0 +1,679 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 304E-610A
+C:.
+|   .env
+|   .gitignore
+|   cargar_vinos.py
+|   estructura.txt
+|   manage.py
+|   package-lock.json
+|   package.json
+|   README.md
+|   
++---apps
+|   |   __init__.py
+|   |   
+|   +---api
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   models.py
+|   |   |   serializers.py
+|   |   |   serializers_ventas.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   views_pos.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---migrations
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           __init__.cpython-39.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           admin.cpython-39.pyc
+|   |           apps.cpython-39.pyc
+|   |           models.cpython-39.pyc
+|   |           serializers.cpython-39.pyc
+|   |           serializers_ventas.cpython-39.pyc
+|   |           urls.cpython-39.pyc
+|   |           views.cpython-39.pyc
+|   |           views_pos.cpython-39.pyc
+|   |           __init__.cpython-39.pyc
+|   |           
+|   +---core
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   models.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   0002_portadaslide.py
+|   |   |   |   0003_homeherocard_homeheroprincipal.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-39.pyc
+|   |   |           0002_almacen_tienda_almacen.cpython-39.pyc
+|   |   |           0002_portadaslide.cpython-39.pyc
+|   |   |           0003_homeherocard_homeheroprincipal.cpython-39.pyc
+|   |   |           __init__.cpython-39.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           admin.cpython-39.pyc
+|   |           apps.cpython-39.pyc
+|   |           models.cpython-39.pyc
+|   |           urls.cpython-39.pyc
+|   |           views.cpython-39.pyc
+|   |           __init__.cpython-39.pyc
+|   |           
+|   +---inventario
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   context_processors.py
+|   |   |   models.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   0002_initial.py
+|   |   |   |   0003_producto_imagen.py
+|   |   |   |   0004_producto_imagen_nombre.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-39.pyc
+|   |   |           0002_alter_stock_unique_together_stock_almacen_and_more.cpython-39.pyc
+|   |   |           0002_initial.cpython-39.pyc
+|   |   |           0002_vino_codigo_barras.cpython-39.pyc
+|   |   |           0003_alter_stock_options_alter_stock_tienda.cpython-39.pyc
+|   |   |           0003_menulateral_entradamenu.cpython-39.pyc
+|   |   |           0003_producto_imagen.cpython-39.pyc
+|   |   |           0004_entradamenu_padre_and_more.cpython-39.pyc
+|   |   |           0004_producto_imagen_nombre.cpython-39.pyc
+|   |   |           0005_alter_entradamenu_enlace_personalizado.cpython-39.pyc
+|   |   |           0006_movimientostock.cpython-39.pyc
+|   |   |           __init__.cpython-39.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           admin.cpython-39.pyc
+|   |           apps.cpython-39.pyc
+|   |           context_processors.cpython-39.pyc
+|   |           models.cpython-39.pyc
+|   |           urls.cpython-39.pyc
+|   |           views.cpython-39.pyc
+|   |           __init__.cpython-39.pyc
+|   |           
+|   +---pos
+|   |   |   admin.py
+|   |   |   api_client.py
+|   |   |   apps.py
+|   |   |   models.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   views_carrito.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-39.pyc
+|   |   |           0002_alter_terminal_tienda_alter_terminal_usuario.cpython-39.pyc
+|   |   |           __init__.cpython-39.pyc
+|   |   |           
+|   |   +---static
+|   |   |   \---pos
+|   |   |       +---css
+|   |   |       |       pos.css
+|   |   |       |       
+|   |   |       \---js
+|   |   +---templates
+|   |   |   \---pos
+|   |   |           base_pos.html
+|   |   |           carrito.html
+|   |   |           inventario.html
+|   |   |           login.html
+|   |   |           panel.html
+|   |   |           resumen.html
+|   |   |           
+|   |   +---utils
+|   |   |   |   carrito_pos.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           carrito_pos.cpython-39.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           admin.cpython-39.pyc
+|   |           api_client.cpython-39.pyc
+|   |           apps.cpython-39.pyc
+|   |           models.cpython-39.pyc
+|   |           urls.cpython-39.pyc
+|   |           views.cpython-39.pyc
+|   |           views_carrito.cpython-39.pyc
+|   |           __init__.cpython-39.pyc
+|   |           
+|   +---usuarios
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   forms.py
+|   |   |   models.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-39.pyc
+|   |   |           0002_perfilcliente_dni_perfilcliente_fecha_nacimiento_and_more.cpython-39.pyc
+|   |   |           __init__.cpython-39.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           admin.cpython-39.pyc
+|   |           apps.cpython-39.pyc
+|   |           forms.cpython-39.pyc
+|   |           models.cpython-39.pyc
+|   |           urls.cpython-39.pyc
+|   |           views.cpython-39.pyc
+|   |           __init__.cpython-39.pyc
+|   |           
+|   +---ventas
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   cart.py
+|   |   |   context_processors.py
+|   |   |   models.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-39.pyc
+|   |   |           0002_venta_cliente.cpython-39.pyc
+|   |   |           0002_venta_empleado_venta_tienda.cpython-39.pyc
+|   |   |           0003_venta_metodo_pago.cpython-39.pyc
+|   |   |           0004_venta_descuento.cpython-39.pyc
+|   |   |           __init__.cpython-39.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           admin.cpython-39.pyc
+|   |           apps.cpython-39.pyc
+|   |           cart.cpython-39.pyc
+|   |           context_processors.cpython-39.pyc
+|   |           models.cpython-39.pyc
+|   |           urls.cpython-39.pyc
+|   |           views.cpython-39.pyc
+|   |           __init__.cpython-39.pyc
+|   |           
+|   \---__pycache__
+|           __init__.cpython-39.pyc
+|           
++---data
+|       Catalogo_Herencia_Altes_Sentits.csv
+|       Catalogo_The_Macallan_Sentits.csv
+|       Listado_Carla_OCULT.xlsx - Sheet1.csv
+|       
++---frontend
+|   |   package.json
+|   |   vite.config.js
+|   |   
+|   +---css
+|   |   |   main.css
+|   |   |   
+|   |   +---components
+|   |   |       buttons.css
+|   |   |       cards.css
+|   |   |       carousel.css
+|   |   |       navbar.css
+|   |   |       navbar_ext.css
+|   |   |       panels.css
+|   |   |       search_subnav.css
+|   |   |       tables.css
+|   |   |       
+|   |   +---core
+|   |   |       layout.css
+|   |   |       reset.css
+|   |   |       typography.css
+|   |   |       variables.css
+|   |   |       
+|   |   \---pages
+|   |           auth.css
+|   |           carrito.css
+|   |           catalogo.css
+|   |           checkout.css
+|   |           confirmacion.css
+|   |           detalle.css
+|   |           home.css
+|   |           perfil.css
+|   |           
+|   \---js
+|           catalogo.js
+|           home.js
+|           main.js
+|           navbar.js
+|           
++---node_modules
+|   |   .package-lock.json
+|   |   
+|   +---.bin
+|   |       esbuild
+|   |       esbuild.cmd
+|   |       esbuild.ps1
+|   |       nanoid
+|   |       nanoid.cmd
+|   |       nanoid.ps1
+|   |       rollup
+|   |       rollup.cmd
+|   |       rollup.ps1
+|   |       vite
+|   |       vite.cmd
+|   |       vite.ps1
+|   |       
+|   +---@esbuild
+|   |   \---win32-x64
+|   |           esbuild.exe
+|   |           package.json
+|   |           README.md
+|   |           
+|   +---@rollup
+|   |   +---rollup-win32-x64-gnu
+|   |   |       package.json
+|   |   |       README.md
+|   |   |       rollup.win32-x64-gnu.node
+|   |   |       
+|   |   \---rollup-win32-x64-msvc
+|   |           package.json
+|   |           README.md
+|   |           rollup.win32-x64-msvc.node
+|   |           
+|   +---@types
+|   |   \---estree
+|   |           flow.d.ts
+|   |           index.d.ts
+|   |           LICENSE
+|   |           package.json
+|   |           README.md
+|   |           
+|   +---esbuild
+|   |   |   install.js
+|   |   |   LICENSE.md
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   +---bin
+|   |   |       esbuild
+|   |   |       
+|   |   \---lib
+|   |           main.d.ts
+|   |           main.js
+|   |           
+|   +---fdir
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |           index.cjs
+|   |           index.d.cts
+|   |           index.d.mts
+|   |           index.mjs
+|   |           
+|   +---nanoid
+|   |   |   index.browser.cjs
+|   |   |   index.browser.js
+|   |   |   index.cjs
+|   |   |   index.d.cts
+|   |   |   index.d.ts
+|   |   |   index.js
+|   |   |   LICENSE
+|   |   |   nanoid.js
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   +---async
+|   |   |       index.browser.cjs
+|   |   |       index.browser.js
+|   |   |       index.cjs
+|   |   |       index.d.ts
+|   |   |       index.js
+|   |   |       index.native.js
+|   |   |       package.json
+|   |   |       
+|   |   +---bin
+|   |   |       nanoid.cjs
+|   |   |       
+|   |   +---non-secure
+|   |   |       index.cjs
+|   |   |       index.d.ts
+|   |   |       index.js
+|   |   |       package.json
+|   |   |       
+|   |   \---url-alphabet
+|   |           index.cjs
+|   |           index.js
+|   |           package.json
+|   |           
+|   +---picocolors
+|   |       LICENSE
+|   |       package.json
+|   |       picocolors.browser.js
+|   |       picocolors.d.ts
+|   |       picocolors.js
+|   |       README.md
+|   |       types.d.ts
+|   |       
+|   +---picomatch
+|   |   |   index.js
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   posix.js
+|   |   |   README.md
+|   |   |   
+|   |   \---lib
+|   |           constants.js
+|   |           parse.js
+|   |           picomatch.js
+|   |           scan.js
+|   |           utils.js
+|   |           
+|   +---postcss
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---lib
+|   |           at-rule.d.ts
+|   |           at-rule.js
+|   |           comment.d.ts
+|   |           comment.js
+|   |           container.d.ts
+|   |           container.js
+|   |           css-syntax-error.d.ts
+|   |           css-syntax-error.js
+|   |           declaration.d.ts
+|   |           declaration.js
+|   |           document.d.ts
+|   |           document.js
+|   |           fromJSON.d.ts
+|   |           fromJSON.js
+|   |           input.d.ts
+|   |           input.js
+|   |           lazy-result.d.ts
+|   |           lazy-result.js
+|   |           list.d.ts
+|   |           list.js
+|   |           map-generator.js
+|   |           no-work-result.d.ts
+|   |           no-work-result.js
+|   |           node.d.ts
+|   |           node.js
+|   |           parse.d.ts
+|   |           parse.js
+|   |           parser.js
+|   |           postcss.d.mts
+|   |           postcss.d.ts
+|   |           postcss.js
+|   |           postcss.mjs
+|   |           previous-map.d.ts
+|   |           previous-map.js
+|   |           processor.d.ts
+|   |           processor.js
+|   |           result.d.ts
+|   |           result.js
+|   |           root.d.ts
+|   |           root.js
+|   |           rule.d.ts
+|   |           rule.js
+|   |           stringifier.d.ts
+|   |           stringifier.js
+|   |           stringify.d.ts
+|   |           stringify.js
+|   |           symbols.js
+|   |           terminal-highlight.js
+|   |           tokenize.js
+|   |           warn-once.js
+|   |           warning.d.ts
+|   |           warning.js
+|   |           
+|   +---rollup
+|   |   |   LICENSE.md
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |       |   getLogFilter.d.ts
+|   |       |   getLogFilter.js
+|   |       |   loadConfigFile.d.ts
+|   |       |   loadConfigFile.js
+|   |       |   native.js
+|   |       |   parseAst.d.ts
+|   |       |   parseAst.js
+|   |       |   rollup.d.ts
+|   |       |   rollup.js
+|   |       |   
+|   |       +---bin
+|   |       |       rollup
+|   |       |       
+|   |       +---es
+|   |       |   |   getLogFilter.js
+|   |       |   |   package.json
+|   |       |   |   parseAst.js
+|   |       |   |   rollup.js
+|   |       |   |   
+|   |       |   \---shared
+|   |       |           node-entry.js
+|   |       |           parseAst.js
+|   |       |           watch.js
+|   |       |           
+|   |       \---shared
+|   |               fsevents-importer.js
+|   |               index.js
+|   |               loadConfigFile.js
+|   |               parseAst.js
+|   |               rollup.js
+|   |               watch-cli.js
+|   |               watch.js
+|   |               
+|   +---source-map-js
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   source-map.d.ts
+|   |   |   source-map.js
+|   |   |   
+|   |   \---lib
+|   |           array-set.js
+|   |           base64-vlq.js
+|   |           base64.js
+|   |           binary-search.js
+|   |           mapping-list.js
+|   |           quick-sort.js
+|   |           source-map-consumer.d.ts
+|   |           source-map-consumer.js
+|   |           source-map-generator.d.ts
+|   |           source-map-generator.js
+|   |           source-node.d.ts
+|   |           source-node.js
+|   |           util.js
+|   |           
+|   +---tinyglobby
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |           index.cjs
+|   |           index.d.cts
+|   |           index.d.mts
+|   |           index.mjs
+|   |           
+|   \---vite
+|       |   client.d.ts
+|       |   LICENSE.md
+|       |   package.json
+|       |   README.md
+|       |   
+|       +---bin
+|       |       openChrome.js
+|       |       vite.js
+|       |       
+|       +---dist
+|       |   +---client
+|       |   |       client.mjs
+|       |   |       env.mjs
+|       |   |       
+|       |   \---node
+|       |       |   cli.js
+|       |       |   index.d.ts
+|       |       |   index.js
+|       |       |   module-runner.d.ts
+|       |       |   module-runner.js
+|       |       |   
+|       |       \---chunks
+|       |               build.js
+|       |               build2.js
+|       |               chunk.js
+|       |               config.js
+|       |               config2.js
+|       |               dist.js
+|       |               lib.js
+|       |               logger.js
+|       |               moduleRunnerTransport.d.ts
+|       |               optimizer.js
+|       |               postcss-import.js
+|       |               preview.js
+|       |               server.js
+|       |               
+|       +---misc
+|       |       false.js
+|       |       true.js
+|       |       
+|       \---types
+|           |   customEvent.d.ts
+|           |   hmrPayload.d.ts
+|           |   hot.d.ts
+|           |   import-meta.d.ts
+|           |   importGlob.d.ts
+|           |   importMeta.d.ts
+|           |   metadata.d.ts
+|           |   package.json
+|           |   
+|           \---internal
+|                   cssPreprocessorOptions.d.ts
+|                   lightningcssOptions.d.ts
+|                   terserOptions.d.ts
+|                   
++---portada
+|       4.png
+|       
++---productos
+|       1.png
+|       1_DohE39z.png
+|       1_FHcL6T5.png
+|       1_hKKBXtR.png
+|       1_ZN8bQda.png
+|       2.png
+|       2_9THY69u.png
+|       2_LlBWACA.png
+|       2_O8srB2h.png
+|       2_XL3bK19.png
+|       3.png
+|       3_oHi447p.png
+|       3_pdxSCM9.png
+|       3_YyZERib.png
+|       4.png
+|       4_4d3AVOa.png
+|       4_NlU5hpJ.png
+|       5.png
+|       5_AiM6Eca.png
+|       5_H4gulQb.png
+|       5_VKVprhX.png
+|       6.png
+|       6_F3aGyKZ.png
+|       6_qtfJl1q.png
+|       6_SwnK7Wr.png
+|       
++---static
+|   +---build
+|   |   \---assets
+|   |           main.js
+|   |           style.css
+|   |           
+|   \---img
+|       |   noimg.jpg
+|       |   
+|       \---vinos
+|               1.png
+|               2.png
+|               3.png
+|               4.png
+|               5.png
+|               6.png
+|               
++---templates
+|   |   base.html
+|   |   
+|   +---home
+|   |       contacto.html
+|   |       index.html
+|   |       nosotros.html
+|   |       ubicacion.html
+|   |       
+|   +---includes
+|   |       carrusel.html
+|   |       catalogo_subnav.html
+|   |       footer.html
+|   |       menu_item.html
+|   |       messages.html
+|   |       navbar.html
+|   |       pagination.html
+|   |       search_subnav.html
+|   |       
+|   +---inventario
+|   |       catalogo.html
+|   |       detalle_producto.html
+|   |       
+|   +---usuarios
+|   |       login.html
+|   |       perfil.html
+|   |       registro.html
+|   |       
+|   \---ventas
+|           carrito.html
+|           checkout.html
+|           confirmacion.html
+|           pago.html
+|           tramitar_pedido.html
+|           
+\---vino_project
+    |   asgi.py
+    |   settings.py
+    |   urls.py
+    |   wsgi.py
+    |   __init__.py
+    |   
+    \---__pycache__
+            settings.cpython-39.pyc
+            urls.cpython-39.pyc
+            wsgi.cpython-39.pyc
+            __init__.cpython-39.pyc
+            
