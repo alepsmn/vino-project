@@ -3,19 +3,25 @@
    ============================================ */
 
 .search-subnav {
-    position: sticky;
+    position: fixed;
+    left: 0;
+    right: 0;
+
     top: var(--navbar-altura);
-    background: var(--color-superficie);
+    z-index: 3500;
+
     max-height: 0;
     opacity: 0;
     pointer-events: none;
-    z-index: 3500; /* encima del overlay, debajo del menú */
+
+    background: var(--color-superficie);
     transition: max-height .16s, opacity .16s;
 }
 
 body.tiene-subnav .search-subnav {
     top: calc(var(--navbar-altura) + var(--subnav-altura));
 }
+
 
 .search-subnav.visible {
     max-height: 70px;

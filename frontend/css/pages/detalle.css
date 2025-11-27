@@ -121,3 +121,21 @@
     }
 
 }
+
+
+/* ============================================
+   OVERRIDE ABSOLUTO PARA LA BÚSQUEDA
+   ============================================ */
+
+body.search-abierta .navbar {
+    transform: none !important;
+}
+
+body.search-abierta .subnav-catalogo {
+    transform: none !important;
+    top: var(--navbar-altura) !important;
+}
+
+body.search-abierta .search-subnav {
+    transform: none !important;
+}

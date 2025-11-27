@@ -23,23 +23,19 @@ let scrollPos = 0;
 
 function bloquearScroll() {
     scrollPos = window.scrollY;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPos}px`;
+    document.documentElement.classList.add("bloqueado");
     document.body.classList.add("bloqueado");
 }
 
 function desbloquearScroll() {
-    document.body.style.position = "";
-    document.body.style.top = "";
+    document.documentElement.classList.remove("bloqueado");
     document.body.classList.remove("bloqueado");
     window.scrollTo(0, scrollPos);
 }
 
-
 /* ============================================================
    TOOLS: TOP DINÁMICO DEL OVERLAY
    ============================================================ */
-
 function syncOverlayTop(overlayEl) {
     const cs = getComputedStyle(document.documentElement);
     const navH = cs.getPropertyValue("--navbar-altura").trim();
@@ -52,7 +48,6 @@ function syncOverlayTop(overlayEl) {
     }
 }
 
-
 /* ============================================================
    CIERRES
    ============================================================ */
@@ -60,10 +55,11 @@ function syncOverlayTop(overlayEl) {
 function cerrarMenuLateral() {
     menuLateral?.classList.remove("abierto");
 }
-
 function cerrarSearch() {
     searchSubnav?.classList.remove("visible");
+    document.body.classList.remove("search-abierta");
 }
+
 
 function cerrarPanelesCatalogo() {
     panelCategorias?.classList.remove("abierto");
@@ -76,9 +72,9 @@ function cerrarTodoGlobal() {
     cerrarSearch();
     cerrarPanelesCatalogo();
     overlayGlobal.classList.remove("visible");
+    document.body.classList.remove("search-abierta");
     desbloquearScroll();
 }
-
 
 /* ============================================================
    MENÚ HAMBURGUESA
@@ -110,14 +106,30 @@ btnSearch?.addEventListener("click", () => {
     const visible = searchSubnav.classList.toggle("visible");
 
     if (visible) {
+        // 1. Marca búsqueda abierta
+        document.body.classList.add("search-abierta");
+
+        // 2. IMPORTANTE: fuerza que la navbar vuelva ANTES de bloquear scroll
+        document.body.classList.remove("nav-hidden");
+
+        // 3. Fuerza repaint para que sticky y transform se apliquen YA
+        void document.body.offsetHeight;
+
+        // 4. Ahora calcula correctamente el overlay
         syncOverlayTop(overlayGlobal);
+
+        // 5. Muestra overlay
         overlayGlobal.classList.add("visible");
+
+        // 6. Ahora sí se puede bloquear scroll (con navbar en el sitio)
         bloquearScroll();
     } else {
+        document.body.classList.remove("search-abierta");
         overlayGlobal.classList.remove("visible");
         desbloquearScroll();
     }
 });
+
 
 document.addEventListener("click", e => {
     if (!searchSubnav?.classList.contains("visible")) return;
@@ -131,7 +143,6 @@ document.addEventListener("click", e => {
         desbloquearScroll();
     }
 });
-
 
 /* ============================================================
    PANEL CATEGORÍAS / FILTROS

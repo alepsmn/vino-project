@@ -213,3 +213,15 @@ body.nav-hidden .navbar {
     transform: translateY(-100%);
     transition: transform 180ms ease-out;
 }
+
+/* Cuando la búsqueda está abierta, forzamos que navbar/subnav NO se oculten */
+body.search-abierta .navbar,
+body.search-abierta .subnav-catalogo {
+    transform: none !important;
+}
+
+/* Si la búsqueda está abierta, la search-subnav no se desplaza hacia arriba */
+body.search-abierta .search-subnav {
+    transform: none !important;
+}
+
