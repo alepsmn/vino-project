@@ -70,10 +70,10 @@ class Cart:
                 precio_decimal = Decimal(item["precio"])
             except Exception:
                 precio_decimal = Decimal(str(item["precio"]))
-            vino = Producto.objects.filter(id=producto_id).first()
-            if vino:
+            producto = Producto.objects.filter(id=producto_id).first()
+            if producto:
                 yield {
-                    "vino": vino,
+                    "producto": producto,
                     "nombre": item["nombre"],
                     "precio": precio_decimal,
                     "cantidad": item["cantidad"],
@@ -82,3 +82,22 @@ class Cart:
 
     def total(self):
         return sum(Decimal(i["precio"]) * i["cantidad"] for i in self.cart.values())
+
+def merge_carts(session, user_id):
+    anon_key = "cart"
+    user_key = f"cart_user_{user_id}"
+
+    anon = session.get(anon_key, {})
+    user_cart = session.get(user_key, {})
+
+    # fusionar cantidades
+    for pid, item in anon.items():
+        if pid in user_cart:
+            user_cart[pid]["cantidad"] += item["cantidad"]
+        else:
+            user_cart[pid] = item
+
+    session[user_key] = user_cart
+    if anon_key in session:
+        del session[anon_key]
+    session.modified = True

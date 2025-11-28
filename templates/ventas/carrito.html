@@ -19,18 +19,18 @@
             <tbody>
                 {% for item in cart %}
                 <tr>
-                    <td>{{ item.vino.nombre }}</td>
+                    <td>{{ item.producto.nombre }}</td>
 
                     <td class="cantidad-col">
                         <div class="qty-wrapper">
 
                             {% if item.cantidad == 1 %}
-                                <a href="{% url 'ventas:restar_carrito' item.vino.id %}"
+                                <a href="{% url 'ventas:restar_carrito' item.producto.id %}"
                                 class="qty-btn minus critico">
                                     ✕
                                 </a>
                             {% else %}
-                                <a href="{% url 'ventas:restar_carrito' item.vino.id %}"
+                                <a href="{% url 'ventas:restar_carrito' item.producto.id %}"
                                 class="qty-btn minus">
                                     −
                                 </a>
@@ -38,7 +38,7 @@
 
                             <span class="qty-num">{{ item.cantidad }}</span>
 
-                            <a href="{% url 'ventas:agregar_carrito' item.vino.id %}"
+                            <a href="{% url 'ventas:agregar_carrito' item.producto.id %}"
                             class="qty-btn plus">
                                 +
                             </a>
@@ -49,7 +49,7 @@
                     <td>{{ item.subtotal }} €</td>
 
                     <td>
-                        <a href="{% url 'ventas:eliminar_carrito' item.vino.id %}" class="btn-eliminar">
+                        <a href="{% url 'ventas:eliminar_carrito' item.producto.id %}" class="btn-eliminar">
                             ✕
                         </a>
                     </td>

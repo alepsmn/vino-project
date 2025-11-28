@@ -22,3 +22,10 @@
 @import "pages/checkout.css";
 @import "pages/confirmacion.css";
 @import "./pages/detalle.css";
+
+@import "./pages/usuarios.css";
+
+/* siempre hay scroll lateral */
+html {
+    overflow-y: scroll;
+}

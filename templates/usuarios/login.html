@@ -8,26 +8,26 @@
 
     <h1>Inicia sesión</h1>
 
-    <form method="post" class="form-login">
-      {% csrf_token %}
+      <form method="post" class="form-login">
+        {% csrf_token %}
 
-      <div class="form-group">
-        <label for="id_username">Usuario</label>
-        <input type="text" name="username" id="id_username" required>
-      </div>
+        <div class="form-group">
+          <label for="id_username">Usuario</label>
+          <input type="text" name="username" id="id_username" required>
+        </div>
 
-      <div class="form-group">
-        <label for="id_password">Contraseña</label>
-        <input type="password" name="password" id="id_password" required>
-      </div>
+        <div class="form-group">
+          <label for="id_password">Contraseña</label>
+          <input type="password" name="password" id="id_password" required>
+        </div>
 
-      <button type="submit" class="btn-principal">Entrar</button>
-    </form>
+        <button type="submit" class="btn-principal">Entrar</button>
+      </form>
 
-    <p class="link-secundario">
-      ¿No tienes cuenta?  
-      <a href="{% url 'usuarios:registro' %}">Regístrate</a>
+    <p>¿No tienes cuenta?  
+      <a href="{% url 'usuarios:registro' %}?next={{ request.GET.next }}">Regístrate</a>
     </p>
+
 
   </div>
 

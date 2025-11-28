@@ -47,12 +47,12 @@ def checkout(request):
     perfil = getattr(request.user, "perfilcliente", None)
     if not perfil or not perfil.es_mayor_edad:
         messages.error(request, "Debes ser mayor de 18 años para comprar alcohol.")
-        return redirect("usuarios:perfil")
+        return redirect("usuarios:perfil_datos")
 
     campos_requeridos = [perfil.dni, perfil.direccion, perfil.ciudad, perfil.codigo_postal]
     if not all(campos_requeridos):
         messages.error(request, "Debes completar tus datos personales y dirección antes de continuar con la compra.")
-        return redirect("usuarios:perfil")
+        return redirect("usuarios:perfil_datos")
     
     cart = Cart(request)
     if not any(cart):
@@ -63,14 +63,17 @@ def checkout(request):
     # Verificar stock
     with transaction.atomic():
         for item in cart:
-            stock = (item['producto']
-                    .stock_set
-                    .select_for_update()
-                    .filter(almacen=almacen_central)
-                    .first())
-            if not stock or stock.cantidad < item['cantidad']:
-                messages.error(request, f"Stock insuficiente para {item['producto'].nombre}.")
-                return redirect('ventas:tramitar_pedido')
+            producto = item["producto"]  # ← TU CART LO ENTREGA ASÍ
+
+            stock = (
+                producto.stock_set
+                        .select_for_update()
+                        .filter(almacen=almacen_central)
+                        .first()
+            )
+            if not stock or stock.cantidad < item["cantidad"]:
+                messages.error(request, f"Stock insuficiente para {producto.nombre}.")
+                return redirect("ventas:tramitar_pedido")
 
     # Crear venta pendiente
     venta = Venta.objects.create(cliente=request.user, total=cart.total(), pagado=False)
@@ -89,25 +92,37 @@ def checkout(request):
 
 @login_required
 def tramitar_pedido(request):
-    cart = Cart(request)
-    if not any(cart):
-        return redirect('ventas:ver_carrito')
-
     perfil = getattr(request.user, "perfilcliente", None)
     if perfil is None:
         perfil = PerfilCliente.objects.create(user=request.user)
 
+    # Verificación de datos críticos antes del checkout
+    campos_obligatorios = [
+        perfil.dni,
+        perfil.fecha_nacimiento,
+        perfil.direccion,
+        perfil.ciudad,
+        perfil.codigo_postal,
+    ]
+
+    if not all(campos_obligatorios):
+        messages.error(request, "Debes completar tu perfil antes de tramitar el pedido.")
+        return redirect("usuarios:perfil_datos")
+
+    # Ahora SÍ solo pedimos dirección de envío (editable)
     if request.method == "POST":
-        form = PerfilClienteForm(request.POST, instance=perfil)
-        if form.is_valid():
-            form.save()
-            return redirect("ventas:checkout")  # crea Venta y redirige al pago
-    else:
-        form = PerfilClienteForm(instance=perfil)
+        direccion_envio = request.POST.get("direccion_envio", "").strip()
+        if direccion_envio:
+            perfil.direccion = direccion_envio
+            perfil.save(update_fields=["direccion"])
+
+        return redirect("ventas:checkout")
+
+    cart = Cart(request)
 
     return render(request, "ventas/tramitar_pedido.html", {
+        "perfil": perfil,
         "cart": cart,
-        "form": form,
     })
 
 def pago_view(request, venta_id):

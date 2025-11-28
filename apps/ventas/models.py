@@ -14,7 +14,6 @@ class Venta(models.Model):
 
     cliente = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
-    cliente_nombre = models.CharField(max_length=100, blank=True, null=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     pagado = models.BooleanField(default=False)
     tienda = models.ForeignKey(Tienda, on_delete=models.SET_NULL, null=True, blank=True)

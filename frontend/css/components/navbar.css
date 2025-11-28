@@ -225,3 +225,47 @@ body.search-abierta .search-subnav {
     transform: none !important;
 }
 
+/* ============================================================
+   FUSIÓN VISUAL: navbar + subnav + search-subnav
+   ============================================================ */
+
+/* Mismo color, sin bordes entre ellos */
+.navbar,
+.subnav-catalogo,
+.search-subnav {
+    background: var(--color-superficie); /* blanco */
+    border-bottom: none !important;
+}
+
+/* El único borde lo lleva el bloque más inferior que esté visible */
+.search-subnav.visible {
+    border-bottom: 1px solid var(--color-borde-suave);
+}
+
+body.tiene-subnav:not(.search-abierta) .subnav-catalogo {
+    border-bottom: 1px solid var(--color-borde-suave);
+}
+
+body:not(.tiene-subnav):not(.search-abierta) .navbar {
+    border-bottom: 1px solid var(--color-borde-suave);
+}
+
+/* Ajuste anti–grietas: evita líneas de 1px entre sticky consecutivos */
+.subnav-catalogo,
+.search-subnav {
+    margin-top: -1px;
+}
+
+/* Quitar cualquier sombra o borde residual que cause separación */
+.navbar,
+.subnav-catalogo,
+.search-subnav {
+    box-shadow: none !important;
+}
+
+/* Opcional: sombra unificada para el conjunto completo */
+body:not(.nav-hidden) .navbar {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Hace que parezcan un solo bloque blanco continuo bajo el scroll */
