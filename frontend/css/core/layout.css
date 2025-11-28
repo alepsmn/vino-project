@@ -25,3 +25,11 @@ html.bloqueado, body.bloqueado {
     overflow: hidden;
     height: 100%;
 }
+
+html.bloqueado {
+    overflow: hidden;
+    height: 100%;
+
+    overflow-anchor: none;
+    overscroll-behavior: none;
+}

@@ -23,13 +23,27 @@ let scrollPos = 0;
 
 function bloquearScroll() {
     scrollPos = window.scrollY;
+
+    // Evita scroll anchoring
+    document.documentElement.style.overflowAnchor = "none";
+
+    // Marca bloqueo (sin repintar nada antes)
     document.documentElement.classList.add("bloqueado");
     document.body.classList.add("bloqueado");
+
+    // Mantiene el scroll fijo sin saltos
+    document.documentElement.scrollTop = scrollPos;
+    document.body.scrollTop = scrollPos;
 }
+
 
 function desbloquearScroll() {
     document.documentElement.classList.remove("bloqueado");
     document.body.classList.remove("bloqueado");
+
+    // Restablece scroll anchoring
+    document.documentElement.style.overflowAnchor = "";
+
     window.scrollTo(0, scrollPos);
 }
 
