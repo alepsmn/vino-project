@@ -1,7 +1,7 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from apps.inventario.models import Producto
-from apps.api.serializers import ProductoSerializer  # tu serializer actual
+from apps.api.serializers import ProductoSerializer
 
-class ProductoViewSet(ModelViewSet):
+class ProductoViewSet(ReadOnlyModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer

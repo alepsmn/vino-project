@@ -18,6 +18,8 @@ from apps.inventario.models import (
 )
 from apps.ventas.models import Venta, DetalleVenta
 
+import logging
+log = logging.getLogger("app")
 
 # =========================
 # PRODUCTOR
@@ -247,6 +249,18 @@ class MovimientoStockInSerializer(serializers.Serializer):
             usuario=user,
         )
 
+        log.info(
+            "movimiento_stock_creado",
+            extra={
+                "movimiento_id": mov.id,
+                "producto_id": mov.producto.id,
+                "tipo": mov.tipo,
+                "cantidad": mov.cantidad,
+                "almacen_id": mov.almacen.id,
+                "usuario_id": mov.usuario.id,
+            }
+        )
+
         return mov
 
 # =========================
@@ -292,6 +306,14 @@ class VentaSerializer(serializers.ModelSerializer):
         request = self.context["request"]
         user = request.user
 
+        log.info(
+            "pos_request",
+            extra={
+                "user_id": user.id,
+                "detalles_count": len(validated_data.get("detalles", []))
+            }
+        )
+
         empleado = getattr(user, "empleado", None)
         if not empleado or not empleado.tienda:
             raise serializers.ValidationError("Empleado sin tienda asignada.")
@@ -320,6 +342,14 @@ class VentaSerializer(serializers.ModelSerializer):
                 sorted((d.producto_id, d.cantidad) for d in ultima.detalles.all())
             )
             if firma_ultima == firma_nueva:
+                log.warning(
+                "venta_duplicada_pos",
+                extra={
+                    "empleado_id": empleado.id,
+                    "tienda_id": tienda.id,
+                    "venta_prev": ultima.id,
+                }
+            )
                 raise serializers.ValidationError("Venta duplicada (idempotencia POS).")
 
         # =============================
@@ -363,6 +393,16 @@ class VentaSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(f"No hay stock para {p.nombre}.")
 
             if s.cantidad < cantidad:
+                log.error(
+                    "stock_insuficiente",
+                    extra={
+                        "producto_id": p.id,
+                        "producto_nombre": p.nombre,
+                        "almacen_id": almacen.id,
+                        "solicitado": cantidad,
+                        "disponible": s.cantidad,
+                    }
+                )
                 raise serializers.ValidationError(f"Stock insuficiente para {p.nombre}.")
 
         # =============================
@@ -417,5 +457,14 @@ class VentaSerializer(serializers.ModelSerializer):
         venta.total = total
         venta.pagado = True
         venta.save(update_fields=["total", "pagado"])
+
+        log.info(
+            "venta_creada",
+            extra={
+                "venta_id": venta.id,
+                "empleado_id": venta.empleado.id,
+                "tienda_id": venta.tienda.id
+            }
+        )
 
         return venta

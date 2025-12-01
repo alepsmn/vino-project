@@ -1,5 +1,4 @@
 # apps/api/urls.py
-
 from django.urls import path, include
 from apps.api.v1 import urls as api_v1
 
