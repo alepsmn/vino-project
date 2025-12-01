@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Tramitar Pedido{% endblock %}
+{% block content %}
+
+<section class="tramitar">
+
+  <h1>Tramitar Pedido</h1>
+
+  <div class="grid">
+
+    <div class="contenedor-perfil">
+
+      <h2>Dirección de envío</h2>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <label for="id_direccion_envio">Dirección</label>
+        <input type="text"
+               id="id_direccion_envio"
+               name="direccion_envio"
+               value="{{ perfil.direccion }}"
+               required>
+
+        <button type="submit" class="btn-principal">
+          Continuar al pago
+        </button>
+      </form>
+
+    </div>
+
+    <aside>
+      <h2>Resumen del pedido</h2>
+      <ul>
+        {% for item in cart %}
+          <li>{{ item.vino.nombre }} × {{ item.cantidad }} — {{ item.subtotal }} €</li>
+        {% endfor %}
+      </ul>
+      <p>Total: <strong>{{ cart.total }} €</strong></p>
+    </aside>
+
+  </div>
+
+</section>
+
+{% endblock %}

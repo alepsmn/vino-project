@@ -1,0 +1,60 @@
+/* ============================================
+   SEARCH SUBNAV (barra de búsqueda)
+   ============================================ */
+
+.search-subnav {
+    position: fixed;
+    left: 0;
+    right: 0;
+
+    top: var(--navbar-altura);
+    z-index: 3500;
+
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+
+    background: var(--color-superficie);
+    transition: max-height .16s, opacity .16s;
+}
+
+body.tiene-subnav .search-subnav {
+    top: calc(var(--navbar-altura) + var(--subnav-altura));
+}
+
+
+.search-subnav.visible {
+    max-height: 70px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.search-form-elegante {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 16px 14px;
+    display: flex;
+}
+
+.search-form-elegante input[type="text"] {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding: 8px 0;
+    color: var(--color-blanco);
+    font-size: 0.95rem;
+}
+
+.search-form-elegante input::placeholder {
+    color: rgba(0,0,0,0.45);
+}
+
+.search-form-elegante input:focus {
+    outline: none;
+    border-bottom-color: var(--color-oro);
+}
+
+body.nav-hidden .search-subnav {
+    transform: translateY(-100%);
+}

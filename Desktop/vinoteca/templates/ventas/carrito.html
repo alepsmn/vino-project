@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block content %}
+<section class="carrito">
+    <h1 class="titulo-seccion">Tu Carrito</h1>
+
+    {% if cart.cart %}
+        <table class="tabla-carrito">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.producto.nombre }}</td>
+
+                    <td class="cantidad-col">
+                        <div class="qty-wrapper">
+
+                            {% if item.cantidad == 1 %}
+                                <a href="{% url 'ventas:restar_carrito' item.producto.id %}"
+                                class="qty-btn minus critico">
+                                    ✕
+                                </a>
+                            {% else %}
+                                <a href="{% url 'ventas:restar_carrito' item.producto.id %}"
+                                class="qty-btn minus">
+                                    −
+                                </a>
+                            {% endif %}
+
+                            <span class="qty-num">{{ item.cantidad }}</span>
+
+                            <a href="{% url 'ventas:agregar_carrito' item.producto.id %}"
+                            class="qty-btn plus">
+                                +
+                            </a>
+                        </div>
+                    </td>
+
+                    <td>{{ item.precio }} €</td>
+                    <td>{{ item.subtotal }} €</td>
+
+                    <td>
+                        <a href="{% url 'ventas:eliminar_carrito' item.producto.id %}" class="btn-eliminar">
+                            ✕
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        <div class="resumen-carrito">
+            <p>Total: <span>{{ cart.total }} €</span></p>
+            <div class="acciones-carrito">
+                <a href="{% url 'inventario:catalogo' %}" class="btn-secundario">Seguir comprando</a>
+                <a href="{% url 'ventas:tramitar_pedido' %}" class="btn-principal">Tramitar pedido</a>
+            </div>
+        </div>
+
+    {% else %}
+        <p class="sin-resultados">Tu carrito está vacío.</p>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="{% url 'inventario:catalogo' %}" class="btn-principal">Volver al catálogo</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

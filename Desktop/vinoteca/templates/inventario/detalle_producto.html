@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}{{ producto.nombre }} — Detalle{% endblock %}
+
+{% block content %}
+<section class="detalle-producto">
+
+    <div class="detalle-contenedor">
+
+        <!-- COLUMNA IZQUIERDA: IMAGEN -->
+        <div class="detalle-img">
+            <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}">
+        </div>
+
+        <!-- COLUMNA DERECHA: INFO -->
+        <div class="detalle-info">
+
+            <h1 class="nombre">{{ producto.nombre }}</h1>
+
+            <p class="productor">{{ producto.productor.nombre }}</p>
+
+            {% if producto.denominacion_origen %}
+            <p class="do">{{ producto.denominacion_origen }}</p>
+            {% endif %}
+
+            <p class="precio">{{ producto.precio_venta }} €</p>
+
+            {% if producto.activo %}
+            <form method="post" action="{% url 'ventas:agregar_carrito' producto.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="cantidad" value="1">
+                <button type="submit" class="btn-principal">Añadir al carrito</button>
+            </form>
+            {% else %}
+            <p class="agotado">Producto agotado</p>
+            {% endif %}
+
+            <hr>
+
+            <div class="info-extra">
+                {% if producto.subtipo %}
+                <p><strong>Tipo:</strong> {{ producto.subtipo|title }}</p>
+                {% endif %}
+                {% if producto.uvas %}
+                <p><strong>Uvas:</strong> {{ producto.uvas }}</p>
+                {% endif %}
+                {% if producto.pais %}
+                <p><strong>País:</strong> {{ producto.pais }}</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

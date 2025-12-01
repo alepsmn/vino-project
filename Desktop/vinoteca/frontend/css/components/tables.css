@@ -1,0 +1,16 @@
+/*tables.css*/
+.tabla-carrito {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+.tabla-carrito th, .tabla-carrito td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.tabla-carrito th {
+  color: var(--dorado);
+  font-weight: 600;
+  border-bottom: 2px solid var(--dorado);
+}

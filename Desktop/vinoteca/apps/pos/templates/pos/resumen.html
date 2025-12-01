@@ -1,0 +1,44 @@
+{% extends 'pos/base_pos.html' %}
+{% block title %}Resumen de Ventas{% endblock %}
+{% block header %}Resumen de Ventas{% endblock %}
+
+{% block content %}
+
+<section class="resumen">
+    <form method="get" class="filtros">
+        <label>Inicio:</label>
+        <input type="date" name="inicio" value="{{ inicio }}">
+        <label>Fin:</label>
+        <input type="date" name="fin" value="{{ fin }}">
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <div class="totales">
+        <h3>Total del período: <span>{{ total_periodo }} €</span></h3>
+    </div>
+
+    {% if resumen %}
+        <table class="tabla-resumen">
+            <thead>
+                <tr>
+                    <th>Vino</th>
+                    <th>Cantidad Vendida</th>
+                    <th>Total Vendido (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in resumen %}
+                <tr>
+                    <td>{{ r.producto__nombre }}</td>
+                    <td>{{ r.cantidad_vendida }}</td>
+                    <td>{{ r.total_vendido }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay ventas registradas en este período.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

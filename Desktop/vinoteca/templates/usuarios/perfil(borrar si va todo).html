@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Mi Perfil{% endblock %}
+
+{% block page_subnav %}
+    {% include "includes/subnav_perfil.html" %}
+{% endblock %}
+
+{% block content %}
+<section class="perfil">
+  <h1>Mi Perfil</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-grid">
+      <label for="{{ form.dni.id_for_label }}">DNI</label>
+      {{ form.dni.errors }}{{ form.dni }}
+
+      <label for="{{ form.fecha_nacimiento.id_for_label }}">Fecha de nacimiento</label>
+      {{ form.fecha_nacimiento.errors }}{{ form.fecha_nacimiento }}
+
+      <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+      {{ form.telefono.errors }}{{ form.telefono }}
+
+      <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+      {{ form.direccion.errors }}{{ form.direccion }}
+
+      <label for="{{ form.ciudad.id_for_label }}">Ciudad</label>
+      {{ form.ciudad.errors }}{{ form.ciudad }}
+
+      <label for="{{ form.codigo_postal.id_for_label }}">Código postal</label>
+      {{ form.codigo_postal.errors }}{{ form.codigo_postal }}
+
+      <label for="{{ form.pais.id_for_label }}">País</label>
+      {{ form.pais.errors }}{{ form.pais }}
+    </div>
+    <button type="submit" class="btn-principal">Guardar cambios</button>
+  </form>
+
+  <hr>
+
+  <h2>Mis Pedidos</h2>
+  {% for venta in ventas %}
+    <p>Pedido #{{ venta.id }} — {{ venta.fecha|date:"d/m/Y H:i" }} — Total: {{ venta.total }} €</p>
+  {% empty %}
+    <p>No tienes pedidos registrados.</p>
+  {% endfor %}
+  <a href="{% url 'logout' %}" class="btn-logout">Salir de mi cuenta</a>
+</section>
+{% endblock %}

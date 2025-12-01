@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+<!-- ================================= -->
+<!-- 1. HERO EDITORIAL -->
+<!-- ================================= -->
+<section class="hero-editorial">
+    <img src="{% static 'img/hero1.jpg' %}" alt="Hero principal">
+</section>
+
+
+<!-- ================================= -->
+<!-- 2. SELECCIÓN DEL MES -->
+<!-- ================================= -->
+<section class="seleccion-curada">
+    <h2>Selección del mes</h2>
+    <p class="sub">Cuatro botellas elegidas por su carácter</p>
+
+    <div class="curada-list">
+        {% for p in seleccion_mes %}
+        <div class="curada-item">
+            <img src="{{ p.imagen_url }}">
+            <h4>{{ p.nombre }}</h4>
+            <p class="prod">{{ p.productor.nombre }}</p>
+            <p class="precio">{{ p.precio_venta }} €</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 3. MATRIZ EDITORIAL -->
+<!-- ================================= -->
+<section class="matriz-editorial">
+    <div class="matriz-grid">
+
+        <div class="matriz-item span-grande">
+            <img src="{% static 'img/editorial1.jpg' %}">
+        </div>
+
+        <a href="#" class="matriz-item mini">
+            <div class="mini-box"><h4>Notas de temporada</h4></div>
+        </a>
+
+        <a href="#" class="matriz-item mini">
+            <div class="mini-box"><h4>PDF temporada</h4></div>
+        </a>
+
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 4. VINOS DESTACADOS DE LA SEMANA -->
+<!-- ================================= -->
+<section class="destacados-semana">
+    <h2>Vinos destacados esta semana</h2>
+    <p class="sub">Selección rotativa del equipo</p>
+
+    <div class="carrusel" id="carruselDestacados">
+        {% for p in destacados_semana %}
+        <div class="car-item">
+            <img src="{{ p.imagen_url }}">
+            <h4>{{ p.nombre }}</h4>
+            <p class="prod">{{ p.productor.nombre }}</p>
+            <p class="precio">{{ p.precio_venta }} €</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 5. COLECCIONES TEMÁTICAS -->
+<!-- ================================= -->
+<section class="colecciones">
+    <h2>Colecciones</h2>
+    <p class="sub">Explora por estilo y temporada</p>
+
+    <div class="colecciones-carrusel" id="carruselColecciones">
+
+        <div class="col-card">
+            <img src="{% static 'img/colec1.jpg' %}">
+            <h4>Para una cena tranquila</h4>
+            <p>Vinos que acompañan sin exigir protagonismo</p>
+            <span class="link">Descubrir →</span>
+        </div>
+
+        <div class="col-card">
+            <img src="{% static 'img/colec2.jpg' %}">
+            <h4>Blancos de clima frío</h4>
+            <p>Acidez precisa y aromas limpios</p>
+            <span class="link">Descubrir →</span>
+        </div>
+
+        <div class="col-card">
+            <img src="{% static 'img/colec3.jpg' %}">
+            <h4>Pequeños productores</h4>
+            <p>Historias botella a botella</p>
+            <span class="link">Descubrir →</span>
+        </div>
+
+        <div class="col-card">
+            <img src="{% static 'img/colec4.jpg' %}">
+            <h4>Selección invierno</h4>
+            <p>Textura y calidez</p>
+            <span class="link">Descubrir →</span>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 6. FAVORITOS DE CLIENTES -->
+<!-- ================================= -->
+<section class="favoritos-clientes">
+    <h2>Favoritos de nuestros clientes</h2>
+    <p class="sub">Botellas que siempre regresan</p>
+
+    <div class="carrusel" id="carruselFavoritos">
+        {% for p in favoritos %}
+        <div class="car-item">
+            <img src="{{ p.imagen_url }}">
+            <h4>{{ p.nombre }}</h4>
+            <p class="prod">{{ p.productor.nombre }}</p>
+            <p class="precio">{{ p.precio_venta }} €</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 7. MINI-HERO (CATÁLOGO) -->
+<!-- ================================= -->
+<section class="mini-hero">
+    <img src="{% static 'img/minihero.jpg' %}" alt="Mini hero catálogo">
+
+    <div class="mini-hero-texto">
+        <h2>Explora nuestra selección</h2>
+        <p>Vinos elegidos con calma y criterio</p>
+        <a href="{% url 'inventario:catalogo' %}" class="mini-hero-link">Ver catálogo completo →</a>
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 8. BODEGAS ASOCIADAS -->
+<!-- ================================= -->
+<section class="bodegas-home">
+    <h2>Bodegas con las que trabajamos</h2>
+
+    <div class="bodegas-grid">
+        {% for b in bodegas %}
+        <img src="{{ b.logo_url }}">
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- ================================= -->
+<!-- 9. QUIÉNES SOMOS -->
+<!-- ================================= -->
+<section class="quienes-somos">
+    <h2>Quiénes somos</h2>
+    <p class="sub">Una bodega familiar donde cada botella tiene una historia.</p>
+    <a href="{% url 'core:nosotros' %}" class="qs-link">Conócenos →</a>
+</section>
+
+
+<!-- ================================= -->
+<!-- 10. PIE EDITORIAL -->
+<!-- ================================= -->
+<section class="pie-editorial">
+    <p>Seleccionamos vinos con identidad. Envíos 24h.</p>
+</section>
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    function autoCarrusel(selector, width = 260, gap = 24, tiempo = 4200) {
+        const c = document.querySelector(selector);
+        if (!c) return;
+
+        let pos = 0;
+        setInterval(() => {
+            pos += width + gap;
+            if (pos > c.scrollWidth - c.clientWidth) pos = 0;
+            c.scrollTo({ left: pos, behavior: 'smooth' });
+        }, tiempo);
+    }
+
+    autoCarrusel("#carruselDestacados");
+    autoCarrusel("#carruselColecciones");
+    autoCarrusel("#carruselFavoritos");
+
+});
+</script>
+{% endblock %}

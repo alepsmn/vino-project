@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body_class %}perfil-sin-menu{% endblock %}
+
+{% block page_subnav %}
+    {% include "includes/subnav_perfil.html" %}
+{% endblock %}
+
+{% block content %}
+    <section class="perfil">
+        <h2>Mis Pedidos</h2>
+        {% for venta in ventas %}
+            <p>Pedido #{{ venta.id }} — {{ venta.fecha|date:"d/m/Y H:i" }} — Total: {{ venta.total }} €</p>
+        {% empty %}
+            <p>No tienes pedidos registrados.</p>
+        {% endfor %}
+    </section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block body_class %}perfil-sin-menu{% endblock %}
+
+{% block page_subnav %}
+    {% include "includes/subnav_perfil.html" %}
+{% endblock %}
+
+{% block content %}
+<section class="perfil contenedor-perfil">
+  <h1 class="titulo-perfil">Mi Perfil</h1>
+
+  <form method="post" class="form-perfil">
+    {% csrf_token %}
+    <div class="form-grid-perfil">
+        <div>
+            <label>DNI</label>
+            {{ form.dni }}
+        </div>
+
+        <div>
+            <label>Fecha de nacimiento</label>
+            {{ form.fecha_nacimiento }}
+        </div>
+
+        <div>
+            <label>Teléfono</label>
+            {{ form.telefono }}
+        </div>
+
+        <div>
+            <label>Dirección</label>
+            {{ form.direccion }}
+        </div>
+
+        <div>
+            <label>Ciudad</label>
+            {{ form.ciudad }}
+        </div>
+
+        <div>
+            <label>Código postal</label>
+            {{ form.codigo_postal }}
+        </div>
+
+        <div>
+            <label>País</label>
+            {{ form.pais }}
+        </div>
+    </div>
+
+    <button type="submit" class="btn-principal">Guardar cambios</button>
+  </form>
+  <a href="{% url 'logout' %}" class="btn-logout">Salir de mi cuenta</a>
+</section>
+
+{% endblock %}

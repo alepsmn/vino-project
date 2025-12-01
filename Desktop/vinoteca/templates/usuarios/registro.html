@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Registro{% endblock %}
+{% block content %}
+<section class="auth">
+  <div class="auth-container">
+    <h1>Crea tu cuenta</h1>
+    <form method="post">
+      {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        {{ form.non_field_errors }}
+
+        <div class="form-grid">
+            {{ form.username.label_tag }} {{ form.username }}
+            {{ form.email.label_tag }} {{ form.email }}
+            {{ form.password.label_tag }} {{ form.password }}
+
+            {{ form.dni.label_tag }} {{ form.dni }}
+            {{ form.fecha_nacimiento.label_tag }} {{ form.fecha_nacimiento }}
+
+            {{ form.telefono.label_tag }} {{ form.telefono }}
+            {{ form.direccion.label_tag }} {{ form.direccion }}
+            {{ form.ciudad.label_tag }} {{ form.ciudad }}
+            {{ form.codigo_postal.label_tag }} {{ form.codigo_postal }}
+        </div>
+
+        <button type="submit" class="btn-principal">Registrarse</button>
+    </form>
+
+
+    <p class="link-secundario">
+      ¿Ya tienes cuenta?
+      <a href="{% url 'usuarios:login' %}">Inicia sesión</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

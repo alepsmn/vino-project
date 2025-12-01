@@ -1,0 +1,52 @@
+<div class="carrito">
+    <h2>Carrito Actual</h2>
+
+    {% if messages %}
+        <ul class="mensajes">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if carrito %}
+    <table class="tabla-carrito">
+        <thead>
+            <tr>
+                <th>Vino</th>
+                <th>Cant.</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in carrito %}
+            <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.precio_unitario }} €</td>
+                <td>{{ item.subtotal }} €</td>
+                <td>
+                    <a href="{% url 'pos:eliminar_carrito' forloop.counter0 %}" class="btn-eliminar">✕</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="acciones-carrito">
+        <p class="total">Total: <strong>{{ total }} €</strong></p>
+
+        <form method="post" action="{% url 'pos:finalizar_venta' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-principal">Finalizar Venta</button>
+        </form>
+
+        <a href="{% url 'pos:limpiar_carrito' %}" class="btn-secundario">Vaciar Carrito</a>
+    </div>
+
+    {% else %}
+        <p>El carrito está vacío.</p>
+    {% endif %}
+</div>

@@ -1,0 +1,31 @@
+/* CORE (fundación del sistema) */
+@import "core/reset.css";
+@import "core/variables.css";
+@import "core/typography.css";
+@import "core/layout.css";
+
+/* COMPONENTES (reutilizables) */
+@import "components/buttons.css";
+@import "components/navbar.css";
+@import "components/navbar_ext.css";
+@import "components/search_subnav.css";
+@import "components/cards.css";
+@import "components/panels.css";
+@import "components/tables.css";
+
+/* PÁGINAS (aisladas por clase del <body>) */
+@import "pages/home.css";
+@import "pages/catalogo.css";
+@import "pages/carrito.css";
+@import "pages/perfil.css";
+@import "pages/auth.css";
+@import "pages/checkout.css";
+@import "pages/confirmacion.css";
+@import "./pages/detalle.css";
+
+@import "./pages/usuarios.css";
+
+/* siempre hay scroll lateral */
+html {
+    overflow-y: scroll;
+}

@@ -1,0 +1,99 @@
+{% extends 'pos/base_pos.html' %}
+{% block title %}Punto de Venta{% endblock %}
+{% block header %}Ventas POS{% endblock %}
+
+{% block content %}
+<div class="pos-layout">
+
+    <!-- Columna izquierda: búsqueda e inventario -->
+    <section class="columna izquierda">
+        <form class="buscador-pos" method="post" action="{% url 'pos:buscar_codigo' %}">
+            {% csrf_token %}
+            <input type="text" name="codigo" placeholder="Buscar producto por nombre o código..." autofocus>
+            <button type="submit">Buscar</button>
+        </form>
+
+        <div class="inventario-lista">
+            {% for p in productos %}
+            <div class="item-producto">
+                <div class="producto-info">
+                    <h3>{{ p.nombre }}</h3>
+                    <p class="tipo">{{ p.tipo|title }}</p>
+                    <p class="precio">{{ p.precio_venta }} €</p>
+                    <p class="stock">Stock: {{ p.stock_cantidad|default:0 }}</p>
+                </div>
+                {% if p.stock_cantidad|default:0 > 0 %}
+                    <form method="post" action="{% url 'pos:agregar_carrito' p.id %}" class="form-add">
+                        {% csrf_token %}
+                        <input type="number" name="cantidad" value="1" min="1" max="{{ p.stock_cantidad }}">
+                        <button type="submit">➕</button>
+                    </form>
+                {% else %}
+                    <span class="agotado">Agotado</span>
+                {% endif %}
+            </div>
+            {% empty %}
+                <p>No hay productos en inventario o no se encontraron resultados.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Columna derecha: carrito -->
+    <aside class="columna derecha">
+        <h2>Carrito</h2>
+
+        {% if messages %}
+            <ul class="mensajes">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if carrito %}
+            <table class="tabla-carrito">
+                <thead>
+                    <tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th><th></th></tr>
+                </thead>
+                <tbody>
+                    {% for id, item in carrito %}
+                    <tr>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>{{ item.precio_unitario }} €</td>
+                        <td>{{ item.subtotal }} €</td>
+                        <td><a href="{% url 'pos:eliminar_carrito' id %}" class="btn-eliminar">✕</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="acciones-carrito">
+                <p class="total">Total: <strong>{{ total }} €</strong></p>
+                <form method="post" action="{% url 'pos:finalizar_venta' %}">
+                    {% csrf_token %}
+                    <div class="metodo-pago">
+                        <label for="metodo_pago">Método de pago:</label>
+                        <select name="metodo_pago" id="metodo_pago">
+                            <option value="efectivo">Efectivo</option>
+                            <option value="tarjeta" selected>Tarjeta</option>
+                            <option value="transferencia">Transferencia</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="descuento">
+                        <label for="descuento">Descuento (%)</label>
+                        <input type="number" name="descuento" id="descuento" step="0.01" min="0" max="100" value="0">
+                    </div>
+                    <button type="submit" class="btn-principal">Finalizar</button>
+                </form>
+                <a href="{% url 'pos:limpiar_carrito' %}" class="btn-secundario">Vaciar</a>
+            </div>
+
+        {% else %}
+            <p>El carrito está vacío.</p>
+        {% endif %}
+    </aside>
+
+</div>
+{% endblock %}

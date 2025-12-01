@@ -1,0 +1,30 @@
+:root {
+    /* PALETA CORPORATIVA */
+    --color-oro: #9A8352;          /* oro corporativo */
+    --color-marfil: #F6F1E7;       /* marfil suave */
+    --color-blanco: #FFFFFF;       /* blanco puro */
+    --color-grafito: #2B2B2B;      /* gris grafito elegante */
+
+    /* FONDOS PRINCIPALES */
+    --color-bg: var(--color-marfil);
+    --color-superficie: #FFFFFF;
+    --color-superficie-alt: #F0ECE3;
+
+    /* TIPOGRAFÍA */
+    --color-texto: var(--color-grafito);
+    --color-texto-suave: rgba(0,0,0,0.55);
+
+    /* BORDES */
+    --color-borde-suave: rgba(0,0,0,0.12);
+
+    /* COMPONENTES */
+    --navbar-altura: 64px;
+    --subnav-altura: 52px;
+
+    /* RADIOS */
+    --radius-md: 10px;
+    --radius-lg: 16px;
+
+    /* SOMBRAS */
+    --shadow-suave: 0 4px 12px rgba(0,0,0,0.12);
+}

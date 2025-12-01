@@ -1,0 +1,271 @@
+/*navbar.css*/
+/* ============================================
+   NAVBAR PRINCIPAL 
+   ============================================ */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1500;
+    height: var(--navbar-altura);
+
+    background: var(--color-superficie); /* blanco */
+    border-bottom: 1px solid var(--color-borde-suave);
+    backdrop-filter: blur(12px);
+
+    display: flex;
+    align-items: center;
+}
+
+
+/* CONTENEDOR INTERNO */
+.nav-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ============================================
+   HAMBURGUESA
+   ============================================ */
+
+.menu-toggle {
+    border: none;
+    background: transparent;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.menu-toggle span {
+    width: 22px;
+    height: 2px;
+    background: #9A8352; /* ORO */
+    border-radius: 999px;
+}
+
+.menu-toggle:hover span {
+    filter: brightness(0.85);
+}
+
+/* ============================================
+   LOGO CENTRADO
+   ============================================ */
+
+.logo-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    text-decoration: none;
+}
+
+.logo-centro {
+    color: #000; /* negro sobre fondo blanco */
+    font-family: "Playfair Display", serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.logo-centro span {
+    color: #9A8352; /* oro */
+}
+
+/* ============================================
+   ICONOS DERECHA
+   ============================================ */
+
+.nav-derecha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+}
+
+/* ICONOS SVG (PERFIL, CARRITO, BUSQUEDA) */
+.nav-derecha svg path {
+    fill: #9A8352; /* ORO */
+    transition: 0.15s ease-in-out;
+}
+
+.nav-derecha a:hover svg path,
+.btn-search:hover svg path {
+    filter: brightness(0.85);
+}
+
+/* BOTÓN DE BÚSQUEDA, PERFIL, CARRITO */
+.btn-search,
+.icono-perfil,
+.icono-carrito {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9A8352;
+}
+
+.btn-search:hover,
+.icono-perfil:hover,
+.icono-carrito:hover {
+    background: rgba(154, 131, 82, 0.12); /* oro suave */
+    transform: translateY(-1px);
+}
+
+/* ============================================
+   MENÚ LATERAL
+   ============================================ */
+
+.menu-lateral {
+    position: fixed;
+    top: var(--navbar-altura);
+    left: 0;
+
+    width: 290px;
+    height: calc(100vh - var(--navbar-altura));
+
+    background: var(--color-superficie-alt);
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+
+    z-index: 3000;
+}
+
+.menu-lateral.abierto {
+    transform: translateX(0);
+}
+
+.cerrar-menu {
+    border: none;
+    background: none;
+    color: #9A8352; /* oro */
+    font-size: 1.4rem;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.menu-arbol {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+}
+
+.menu-arbol a {
+    display: block;
+    padding: 8px 6px;
+    border-radius: 6px;
+    color: var(--color-texto-suave);
+    text-decoration: none;
+}
+
+.menu-arbol a:hover {
+    background: rgba(154,131,82,0.12);
+    color: #000;
+}
+
+/* ============================================
+   OVERLAY GLOBAL
+   ============================================ */
+
+#overlayGlobal {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    top: var(--navbar-altura);
+    background: rgba(0,0,0,0.55);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease;
+
+    z-index: 2500;
+}
+
+body.tiene-subnav #overlayGlobal {
+    top: calc(var(--navbar-altura) + var(--subnav-altura));
+}
+
+#overlayGlobal.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ============================================
+   SCROLL CONTROL
+   ============================================ */
+
+body.nav-hidden .navbar {
+    transform: translateY(-100%);
+    transition: transform 180ms ease-out;
+}
+
+/* Cuando la búsqueda está abierta, forzamos que navbar/subnav NO se oculten */
+body.search-abierta .navbar,
+body.search-abierta .subnav-catalogo {
+    transform: none !important;
+}
+
+/* Si la búsqueda está abierta, la search-subnav no se desplaza hacia arriba */
+body.search-abierta .search-subnav {
+    transform: none !important;
+}
+
+/* ============================================================
+   FUSIÓN VISUAL: navbar + subnav + search-subnav
+   ============================================================ */
+
+/* Mismo color, sin bordes entre ellos */
+.navbar,
+.subnav-catalogo,
+.search-subnav {
+    background: var(--color-superficie); /* blanco */
+    border-bottom: none !important;
+}
+
+/* El único borde lo lleva el bloque más inferior que esté visible */
+.search-subnav.visible {
+    border-bottom: 1px solid var(--color-borde-suave);
+}
+
+body.tiene-subnav:not(.search-abierta) .subnav-catalogo {
+    border-bottom: 1px solid var(--color-borde-suave);
+}
+
+body:not(.tiene-subnav):not(.search-abierta) .navbar {
+    border-bottom: 1px solid var(--color-borde-suave);
+}
+
+/* Ajuste anti–grietas: evita líneas de 1px entre sticky consecutivos */
+.subnav-catalogo,
+.search-subnav {
+    margin-top: -1px;
+}
+
+/* Quitar cualquier sombra o borde residual que cause separación */
+.navbar,
+.subnav-catalogo,
+.search-subnav {
+    box-shadow: none !important;
+}
+
+/* Opcional: sombra unificada para el conjunto completo */
+body:not(.nav-hidden) .navbar {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Hace que parezcan un solo bloque blanco continuo bajo el scroll */

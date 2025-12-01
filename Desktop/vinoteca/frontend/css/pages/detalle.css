@@ -1,0 +1,141 @@
+.detalle-producto {
+    margin-top: 40px;
+}
+
+.detalle-contenedor {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 60px;
+
+    align-items: start;
+}
+
+
+/* Imagen del vino */
+.detalle-img {
+    background: var(--color-superficie);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-suave);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 550px; /* proporción tipo vitrina */
+}
+
+.detalle-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Info */
+.detalle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;   /* fuerza alineación uniforme */
+}
+
+.detalle-info .nombre {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-grafito);
+}
+
+.detalle-info .productor {
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+.detalle-info .do {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.detalle-info .precio {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-oro);
+    margin-top: 10px;
+}
+
+.detalle-info hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid var(--color-borde-suave);
+}
+
+.detalle-info form {
+    margin-top: 10px;
+}
+
+.detalle-info .nombre {
+    text-align: left;
+}
+
+.info-extra {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-extra p {
+    font-size: 0.95rem;
+    color: var(--color-texto);
+}
+
+.agotado {
+    color: #a00;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .detalle-contenedor {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 10px;
+    }
+
+    .detalle-img img {
+        max-height: 400px;
+    }
+
+}
+
+
+@media (max-width: 900px) {
+    .detalle-contenedor {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .detalle-img {
+        height: 420px;
+    }
+
+}
+
+
+/* ============================================
+   OVERRIDE ABSOLUTO PARA LA BÚSQUEDA
+   ============================================ */
+
+body.search-abierta .navbar {
+    transform: none !important;
+}
+
+body.search-abierta .subnav-catalogo {
+    transform: none !important;
+    top: var(--navbar-altura) !important;
+}
+
+body.search-abierta .search-subnav {
+    transform: none !important;
+}

@@ -1,0 +1,35 @@
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-texto);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    margin: 0;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 110px 16px 40px; /* espacio para navbar (y subnav + search si se abre) */
+}
+
+section {
+    margin-bottom: 60px;
+}
+
+/* cuando hay overlay / panel abierto, se bloquea el scroll */
+
+html.bloqueado, body.bloqueado {
+    overflow: hidden;
+    height: 100%;
+}
+
+html.bloqueado {
+    overflow: hidden;
+    height: 100%;
+
+    overflow-anchor: none;
+    overscroll-behavior: none;
+}

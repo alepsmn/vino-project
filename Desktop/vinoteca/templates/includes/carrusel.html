@@ -1,0 +1,19 @@
+<section class="carrusel-section">
+    <h2>{{ titulo }}</h2>
+
+    <div class="carrusel" data-carrusel>
+        <button class="car-btn prev" data-prev>&lt;</button>
+
+        <div class="car-track">
+            {% for p in productos %}
+            <div class="car-item">
+                <img src="{{ p.imagen_url }}" style="width:150px; height:150px; background:red;">
+                <h4>{{ p.nombre }}</h4>
+                <span>{{ p.precio_venta }} €</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="car-btn next" data-next>&gt;</button>
+    </div>
+</section>

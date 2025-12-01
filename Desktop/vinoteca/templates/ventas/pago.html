@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Pago del Pedido{% endblock %}
+{% block content %}
+<section class="pago">
+  <h1>Finalizar Pago</h1>
+  <p>Total a pagar: {{ venta.total }} €</p>
+
+  <div id="payment-element"></div>
+  <button id="pagar" class="btn-principal">Pagar</button>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+    const options = {clientSecret: "{{ client_secret }}"};
+    const elements = stripe.elements(options);
+    const payment = elements.create("payment");
+    payment.mount("#payment-element");
+
+    document.getElementById("pagar").addEventListener("click", async () => {
+      const {error} = await stripe.confirmPayment({
+        elements,
+        confirmParams: {return_url: window.location.origin + "/ventas/confirmacion/"}
+      });
+      if (error) alert(error.message);
+    });
+  </script>
+</section>
+{% endblock %}

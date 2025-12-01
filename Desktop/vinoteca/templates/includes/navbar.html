@@ -1,0 +1,80 @@
+<header class="navbar">
+  <div class="nav-container">
+
+    <!-- Hamburguesa -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Logo centrado -->
+    <a href="/" class="logo-wrapper">
+      <span class="logo-centro">Sentits<span>PS</span></span>
+    </a>
+
+    <!-- Iconos derecha -->
+    <div class="nav-derecha">
+
+      <button class="btn-search" id="btnSearch" aria-label="Buscar">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="22" height="22"
+             viewBox="0 0 24 24" class="icono">
+          <path d="M21 20l-5.8-5.8A7.5 7.5 0 1 0 4.5 12a7.5 7.5 0 0 0 10.7 6.7L21 20zM6 12a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"/>
+        </svg>
+      </button>
+      <!-- Botón Carrito -->
+      <a href="{% url 'ventas:ver_carrito' %}" class="icono-carrito" title="Carrito">
+        <svg xmlns="http://www.w3.org/2000/svg"
+            width="22" height="22"
+            viewBox="0 0 24 24" class="icono">
+          <path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 
+                  0 1.1.9 2 2 2h10v-2h-9.42c-.14 0-.25-.11-.25-.25 
+                  0-.04.01-.09.03-.12l.9-1.63h6.72c.75 0 1.41-.41 1.75-1.03l3.58-6.49
+                  c.08-.14.12-.3.12-.48 0-.55-.45-1-1-1h-14zm-3 16
+                  c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2zm12 0
+                  c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2z" />
+        </svg>
+      </a>
+
+      {% if user.is_authenticated %}
+      <a href="{% url 'usuarios:perfil_datos' %}" class="icono-perfil" title="Mi cuenta">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="22" height="22"
+             viewBox="0 0 24 24" class="icono">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5z"/>
+        </svg>
+      </a>
+      {% else %}
+      <a href="{% url 'usuarios:login' %}" class="icono-perfil" title="Entrar / Registrarse">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="22" height="22"
+             viewBox="0 0 24 24" class="icono">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5z"/>
+        </svg>
+      </a>
+      {% endif %}
+
+    </div>
+  </div>
+</header>
+
+<!-- overlay global (hamburguesa + búsqueda) -->
+<div id="overlayGlobal"></div>
+<div id="overlayCatalogo"></div>
+
+<!-- menú lateral -->
+<nav id="menuLateral" class="menu-lateral">
+    <button class="cerrar-menu" id="cerrarMenu" aria-label="Cerrar menú">&times;</button>
+
+    <ul class="menu-arbol">
+      <li><a href="{% url 'inventario:catalogo' %}">Catálogo</a></li>
+      <li><a href="{% url 'core:nosotros' %}">Quiénes Somos</a></li>
+      <li><a href="{% url 'core:ubicacion' %}">Ubicación</a></li>
+      <li><a href="{% url 'core:contacto' %}">Contacto</a></li>
+
+      <hr>
+
+      {% for item in menu_estructurado %}
+        {% include "includes/menu_item.html" with item=item %}
+      {% endfor %}
+    </ul>
+</nav>

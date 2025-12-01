@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Pedido Confirmado{% endblock %}
+
+{% block content %}
+<section class="confirmacion">
+    <div class="confirmacion-container">
+        <h1 class="titulo-seccion">¡Gracias por tu compra!</h1>
+
+        <div class="mensaje-confirmacion">
+            <p>Tu pedido ha sido registrado correctamente.</p>
+            {% if venta %}
+                <p class="pedido-id">Número de pedido: <strong>#{{ venta.id }}</strong></p>
+                <p>Total pagado: <strong>{{ venta.total }} €</strong></p>
+                <p>Fecha: {{ venta.fecha|date:"d/m/Y H:i" }}</p>
+            {% endif %}
+        </div>
+
+        <div class="acciones-confirmacion">
+            <a href="{% url 'inventario:catalogo' %}" class="btn-principal">Volver al catálogo</a>
+            <a href="{% url 'usuarios:perfil_datos' %}" class="btn-secundario">Ver mis pedidos</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

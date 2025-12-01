@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Catálogo{% endblock %}
+{% block body_class %}pagina-catalogo tiene-subnav{% endblock %}
+
+{% block page_subnav %}
+  {% include "includes/catalogo_subnav.html" %}
+{% endblock %}
+
+{% block content %}
+
+<section class="catalogo">
+    <h1>Catálogo</h1>
+
+    <div id="gridCatalogo" class="grid-vinos">
+        {% for p in productos %}
+        <a href="{% url 'inventario:detalle_producto' p.id %}" class="vino-card">
+            <div class="vino-card-izq">
+                <img src="{{ p.imagen_url }}" class="vino-img">
+            </div>
+
+            <div class="vino-card-der">
+                <h3 class="vino-nombre">{{ p.nombre }}</h3>
+                <p class="productor">{{ p.productor.nombre }}</p>
+                <p class="precio">{{ p.precio_venta }} €</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+</section>
+
+<div id="overlayCatalogo" class="overlay-catalogo"></div>
+
+<aside id="panelCategorias" class="panel-lateral izquierdo">
+    <h2>Categorías</h2>
+    <ul>
+        <li><a href="?tipo=tinto">Vinos Tintos</a></li>
+        <li><a href="?tipo=blanco">Vinos Blancos</a></li>
+        <li><a href="?tipo=espumoso">Espumosos</a></li>
+        <li><a href="?tipo=destilado">Destilados</a></li>
+    </ul>
+</aside>
+
+<aside id="panelFiltros" class="panel-lateral derecho">
+    <h2>Filtrar / Ordenar</h2>
+    <form method="get">
+        <label>Ordenar por:</label>
+        <select name="orden">
+            <option value="nombre">Nombre</option>
+            <option value="precio_asc">Precio ↑</option>
+            <option value="precio_desc">Precio ↓</option>
+        </select>
+        <label>Precio:</label>
+        <div class="filas">
+            <input name="min" type="number" step="0.01" placeholder="Mín €">
+            <input name="max" type="number" step="0.01" placeholder="Máx €">
+        </div>
+        <button class="btn-principal" type="submit">Aplicar</button>
+    </form>
+</aside>
+{% endblock %}
+
+{% block extra_js %}
+  <script type="module" src="{% static 'build/assets/main.js' %}" defer></script>
+{% endblock %}

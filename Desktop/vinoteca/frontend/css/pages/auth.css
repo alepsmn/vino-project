@@ -1,0 +1,23 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+.auth-container {
+    background: var(--color-superficie);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-suave);
+    max-width: 400px;
+}
+.auth-container h1 { text-align: center; margin-bottom: 20px; }
+
+.auth-container input {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--color-superficie-alt);
+    border: 1px solid var(--color-borde-suave);
+    color: var(--color-texto);
+    border-radius: 5px;
+}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Finalizar Compra{% endblock %}
+
+{% block content %}
+<section class="checkout">
+    <h1 class="titulo-seccion">Confirmar Pedido</h1>
+
+    {% if error %}
+        <p class="msg error">{{ error }}</p>
+    {% endif %}
+
+    <table class="tabla-carrito">
+        <thead>
+            <tr>
+                <th>Vino</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr>
+                    <td>{{ item.p.nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.precio }} €</td>
+                    <td>{{ item.subtotal }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="checkout-resumen">
+        <p class="total">Total: <span>{{ cart.total }} €</span></p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-principal">Confirmar y Pagar</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

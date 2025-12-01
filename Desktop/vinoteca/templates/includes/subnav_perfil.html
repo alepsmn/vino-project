@@ -1,0 +1,23 @@
+<nav id="subnavPerfil" class="subnav-catalogo">
+    <div class="subnav-izq">
+        <a href="{% url 'usuarios:perfil_datos' %}"
+           class="btn-secundario {% if active_tab == 'datos' %}activo{% endif %}">
+            Mis Datos
+        </a>
+
+        <a href="{% url 'usuarios:perfil_pedidos' %}"
+           class="btn-secundario {% if active_tab == 'pedidos' %}activo{% endif %}">
+            Pedidos
+        </a>
+
+        <a href="{% url 'usuarios:perfil_favoritos' %}"
+           class="btn-secundario {% if active_tab == 'favoritos' %}activo{% endif %}">
+            Favoritos
+        </a>
+
+        <a href="{% url 'usuarios:perfil_colecciones' %}"
+           class="btn-secundario {% if active_tab == 'colecciones' %}activo{% endif %}">
+            Colecciones
+        </a>
+    </div>
+</nav>

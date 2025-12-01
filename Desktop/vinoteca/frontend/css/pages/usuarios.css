@@ -1,0 +1,68 @@
+/* Contenedor estrecho y centrado */
+.contenedor-perfil {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* H1, si quieres seguir centrado */
+.perfil h1 {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* Título sobrio */
+.titulo-perfil {
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin-bottom: 28px;
+    color: #2c2c2c;
+}
+
+/* Layout en una sola columna */
+.form-grid-perfil {
+    display: grid;
+    gap: 22px;
+}
+
+/* Label siempre encima del input */
+.form-grid-perfil label {
+    display: block;              /* ← clave */
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b6b6b;
+    letter-spacing: 0.2px;
+    margin-bottom: 4px;
+}
+
+/* Input alineado y del mismo ancho en todos los campos */
+.form-grid-perfil input,
+.form-grid-perfil select {
+    display: block;              /* ← clave */
+    width: 100%;
+    box-sizing: border-box;      /* ← evita desbordes raros */
+    border: none;
+    border-bottom: 1px solid #d4cfc4;
+    background: transparent;
+    padding: 8px 2px;
+    font-size: 1rem;
+    transition: border-color .25s;
+}
+
+.form-grid-perfil input:focus,
+.form-grid-perfil select:focus {
+    outline: none;
+    border-bottom-color: #b59f75;
+}
+
+/* Botón centrado bajo el formulario */
+.perfil .btn-principal {
+    margin-top: 28px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-principal:hover {
+    background: #a48d63;
+}

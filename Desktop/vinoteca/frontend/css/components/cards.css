@@ -1,0 +1,98 @@
+/* GRID GENERAL */
+.grid-vinos {
+    display: grid;
+    gap: 24px;
+}
+
+
+/* CARD COMO BOTÓN COMPLETO */
+.vino-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: var(--color-superficie);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    box-shadow: var(--shadow-suave);
+
+    max-width: 260px;     /* antes ocupaba demasiado, esto garantiza que entren 4 */
+    width: 100%;
+
+    text-decoration: none;
+    color: var(--color-texto);
+
+    height: 400px;      /* más alta */
+}
+
+.vino-card:hover {
+    background: var(--color-superficie-alt);
+    transform: translateY(-2px);
+}
+
+/* COLUMNA IZQUIERDA */
+.vino-card-izq {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+}
+
+.vino-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* COLUMNA DERECHA */
+.vino-card-der {
+    padding: 12px 0 0 0;
+    text-align: center;
+    width: 100%;
+}
+
+.vino-card-der h3,
+.vino-nombre {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.productor {
+    font-size: 0.80rem;
+    opacity: 0.75;
+}
+
+.precio {
+    margin-top: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-oro);
+}
+
+.vino-card-der h3,
+.vino-nombre {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.productor {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.precio {
+    margin-top: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-oro);
+}
